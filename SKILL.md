@@ -219,17 +219,17 @@ Use this default layout:
 
 ```text
 88-学习/
-  [一级分类]/
-    [二级主题]/
+  [大学科]/
+    [章节或知识要点]/
       [主题].md
 ```
 
 Classification guidance:
 
-- Prefer short Chinese folder names for readability unless the vault clearly uses another language.
-- Create only folders that are useful for retrieval; avoid over-nesting.
-- Infer `一级分类` from the durable knowledge domain, for example `AI与智能体`, `产品与需求`, `经营管理`, `技术架构`, `业务运营`, `读书笔记`, `研究论文`, `工具方法`.
-- Infer `二级主题` from the specific subject, for example `Agent Harness`, `RAG`, `CRM`, `OKR`, `费曼学习法`.
+- Prefer short, direct folder names. Avoid combined names such as `AI与智能体` or `产品与需求` when a clearer subject hierarchy exists.
+- The first level under `88-学习/` should be a broad discipline, for example `AI`, `产品`, `管理`, `技术`, `业务`, `读书`, `论文`, `工具`.
+- The second level should be a chapter, subdomain, or durable knowledge point, for example under `AI/`: `智能体`, `skills`, `RAG`, `harness`, `prompting`, `MCP`.
+- Use one more level only when it meaningfully improves retrieval. Keep the directory tree simple and direct.
 - If classification confidence is low, save under `88-学习/待分类/` and add `domain/unknown` or a conservative domain tag.
 - Do not save final learning notes into any generated-output scratch area by default.
 - If the user explicitly provides a destination folder, respect it after confirming it is inside the resolved vault.
@@ -237,9 +237,10 @@ Classification guidance:
 Example paths:
 
 ```text
-88-学习/AI与智能体/Agent Harness/Agent 与 Agent Harness：核心架构.md
-88-学习/经营管理/OKR/OKR 与 KPI：目标管理机制.md
-88-学习/产品与需求/PRD/高质量 PRD 的结构化写法.md
+88-学习/AI/智能体/Agent 与 Agent Harness：核心架构.md
+88-学习/AI/skills/学霸技能设计与评估.md
+88-学习/管理/OKR/OKR 与 KPI：目标管理机制.md
+88-学习/产品/PRD/高质量 PRD 的结构化写法.md
 ```
 
 Use one coherent note that contains the full learning experience. The default shape should be close to this:
