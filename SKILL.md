@@ -79,7 +79,7 @@ Allowed access tags:
 - `access/pasted`: source came from pasted text.
 - `access/blocked`: source could not be read because authentication, permission, or export was unavailable.
 
-For authenticated learning notes, include a short "来源访问方式" line in `## 9. 来源与可信度`, for example:
+For authenticated learning notes, include a short "来源访问方式" line under `## 5. 来源` -> `### 来源与可信度`, for example:
 
 ```markdown
 - 来源访问方式：`access/authenticated`，通过用户已登录浏览器读取可见正文；未读取 cookies/localStorage。
@@ -264,7 +264,7 @@ created: "YYYY-MM-DD"
 > [!abstract] 一句话系统本质
 > 用不超过 100 字说明这个知识解决的核心问题、底层机制和适用价值。不要写“本文介绍了...”，直接给本质判断。
 
-## 1. 知识全景架构树 (Mental Map)
+## 1. 全景
 
 ```text
 [[核心主题]]
@@ -274,35 +274,39 @@ created: "YYYY-MM-DD"
 └── 边界风险 (Limits) -> 何时失效、误区是什么？
 ```
 
-## 2. 原子概念与双链网 (Concepts)
+## 2. 概念
 
 | 概念 | 一句话解释 | 边界/误区 | 可拆卡 | 来源锚点 |
 |---|---|---|---|---|
 | [[概念A]] |  |  | 是/否 |  |
 
-## 3. 系统化内容详解
+## 3. 正文
 
-### 3.1 核心痛点与背景（Why）
+### Why：问题与背景
 
-### 3.2 体系与架构（What）
+### What：机制与结构
 
-### 3.3 落地应用与 SOP（How）
+### How：应用与步骤
 
-### 3.4 应用边界、熔断条件与常见误区（Limits）
+### Limits：边界与误区
 
-## 4. 和我已有知识/工作的连接
+### Links：和已有知识/工作的连接
 
-## 5. 费曼闭环与延伸思考
+## 4. 练习
 
-## 6. 闭卷回忆题
+### 费曼自测
 
-## 7. 迁移练习
+### 闭卷回忆
 
-## 8. 复习计划
+### 迁移任务
 
-## 9. 来源与可信度
+### 复习节奏
 
-## 10. 质量验收
+## 5. 来源
+
+### 来源与可信度
+
+### 质量检查
 ```
 
 Use Obsidian double links selectively inside this single note. If a concept deserves a future card, link it and mark it as "可拆卡", but do not create the separate card unless requested. Avoid making the output look like many small disconnected notes pasted together; the note must read as one complete explanation.
@@ -468,26 +472,31 @@ Adapt the plan if the user has an exam date, project deadline, or weekly cadence
 In default one-file mode, include this checklist as a section inside the note. In asset-package mode, create `qa.md`.
 
 ```markdown
-# 质量验收
+## 5. 来源
 
-## 来源追踪
+### 来源与可信度
+
+### 质量检查
+
+#### 来源追踪
 - [ ] 关键论断有来源锚点
 - [ ] 原文观点、AI 转述、推理扩展已区分
 - [ ] 不确定内容已标记
 
-## TAG 流
+#### TAG 流
 - [ ] 标签使用受控词表
 - [ ] domain 标签没有过度推断
 - [ ] status/type/source/confidence 四类标签齐全
 
-## 双链
+#### 双链
 - [ ] 只链接长期可复用概念
 - [ ] 没有给普通关键词制造伪双链
 - [ ] 概念卡文件名稳定、无来源名污染
 
-## 学习效果
+#### 学习效果
 - [ ] 单文件像一篇完整系统化专题，而不是零散卡片堆叠
-- [ ] 包含一句话系统本质、Mental Map、概念双链网、Why/What/How/Limits
+- [ ] 主目录保持简洁：全景、概念、正文、练习、来源
+- [ ] 正文覆盖 Why / What / How / Limits
 - [ ] 概念卡包含定义、边界、反例、误区、应用
 - [ ] 费曼题暴露理解难点
 - [ ] 练习题包含答案或评分标准
@@ -697,7 +706,7 @@ tags:
 
 # [主题]：系统化学习笔记
 
-## 知识全景架构树
+## 1. 全景
 
 ```text
 [核心主题]
@@ -708,17 +717,19 @@ tags:
 └── 迁移产出 Transfer
 ```
 
-## 1. 核心痛点与背景 Why
+## 2. 正文
 
-## 2. 体系与机制 What
+### Why：问题与背景
 
-## 3. 落地应用与 SOP How
+### What：体系与机制
 
-## 4. 局限、反例与常见误区 Limits
+### How：落地应用
 
-## 5. 迁移产出 Transfer
+### Limits：局限与误区
 
-## 来源锚点
+### Transfer：迁移产出
+
+## 3. 来源
 - [source-anchor]
 ````
 
