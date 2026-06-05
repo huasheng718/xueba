@@ -36,6 +36,33 @@
       "prompt": "测试技能，学习一个需要登录权限的飞书 Wiki：https://my.feishu.cn/wiki/MOEXwZtR9iKbXYkJttgcWQdcnUd 。如果直接访问是登录页，要解决登录授权问题，不要直接编内容。",
       "expected_output": "应先识别这是 authenticated source，按授权访问梯度处理：公开读取校验正文、尝试官方导出/API/连接器、可用时请求使用已登录浏览器读取可见正文、否则要求用户提供导出或粘贴内容。若仍拿不到正文，应生成单文件结构化失败说明，使用 source/feishu 与 access/blocked 标签，明确没有伪造内容；不应把登录页当正文总结。",
       "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "使用学霸技能学习 https://agentskills.io/home，并保存到 Obsidian。注意：最终回复不要暴露任何 /private/tmp 或 /tmp 临时草稿路径。",
+      "expected_output": "应读取公开网页并生成单文件系统化笔记；保存路径必须位于真实 Obsidian vault 的 `88-学习/AI/skills/` 或等价简洁分类路径下；最终回复只能报告正式 Obsidian 文件路径和来源访问方式，不得把 `/private/tmp`、`/tmp` 或其他临时中间文件作为用户可见产物。",
+      "files": [],
+      "expectations": [
+        "最终用户回复不包含 /private/tmp",
+        "最终用户回复不包含 /tmp 临时草稿路径",
+        "保存路径位于真实 Obsidian vault 内",
+        "保存路径包含 88-学习/",
+        "Agent Skills 主题保存到 88-学习/AI/skills/ 或等价简洁分类路径",
+        "输出是一篇单文件系统化 Markdown 笔记"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "我没有安装 Obsidian，但想让学霸把这段资料整理进 Obsidian：<资料占位>。",
+      "expected_output": "应先检测 Obsidian；若未安装或不可检测，应提示官方中文下载页 https://obsidian.md/zh/，并要求用户提供 vault 路径后才声称已保存到 Obsidian。可以生成 Markdown 内容，但不能虚构保存成功，也不能使用当前工作区或临时目录冒充 Obsidian vault。",
+      "files": [],
+      "expectations": [
+        "未检测到 Obsidian 时包含 https://obsidian.md/zh/",
+        "未解析到真实 vault 前不声称已保存到 Obsidian",
+        "不使用当前工作区冒充 Obsidian vault",
+        "不使用 /private/tmp 或 /tmp 冒充 Obsidian vault",
+        "要求用户提供 vault 路径后再执行正式保存"
+      ]
     }
   ]
 }

@@ -136,57 +136,7 @@ tags:
 
 ## 默认单文件模板
 
-```markdown
----
-title: "系统化专题：[主题]"
-tags:
-  - status/seed
-  - type/system-note
-  - domain/[domain]
-  - source/[source-type]
-  - access/[access-type]
-  - confidence/[level]
-source: "[source]"
-created: "YYYY-MM-DD"
----
-
-# 系统化专题：[[主题]]
-
-> [!abstract] 一句话系统本质
-> 不超过 100 字，一针见血说明该知识解决的核心问题、底层机制和适用价值。
-
-## 1. 全景
-
-## 2. 概念
-
-## 3. 正文
-
-### Why：问题与背景
-
-### What：机制与结构
-
-### How：应用与步骤
-
-### Limits：边界与误区
-
-### Links：和已有知识/工作的连接
-
-## 4. 练习
-
-### 费曼自测
-
-### 闭卷回忆
-
-### 迁移任务
-
-### 复习节奏
-
-## 5. 来源
-
-### 来源与可信度
-
-### 质量检查
-```
+默认五段式模板已移到 `references/note-template.md`，作为单文件学习笔记的唯一模板来源。主标题固定保持简洁：`全景`、`概念`、`正文`、`练习`、`来源`。
 
 ## 测试提示
 

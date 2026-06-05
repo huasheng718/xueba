@@ -302,11 +302,11 @@ AI/eval
 
 ### Phase 1：整理与拆分
 
-- [ ] 新增 `references/note-template.md`。
+- [x] 新增 `references/note-template.md`。
 - [ ] 新增 `references/obsidian-workflow.md`。
 - [ ] 新增 `references/authenticated-sources.md`。
 - [ ] 新增 `references/upgrade-mode.md`。
-- [ ] 精简 `SKILL.md` 到高层规则和加载指令。
+- [x] 精简 `SKILL.md` 到高层规则和加载指令。
 
 验收：
 
@@ -315,7 +315,7 @@ AI/eval
 
 ### Phase 2：脚本化 Obsidian 流程
 
-- [ ] 新增 `scripts/resolve_obsidian_vault.py`。
+- [x] 新增 `scripts/resolve_obsidian_vault.py`。
 - [ ] 新增 `scripts/classify_learning_path.py`。
 - [ ] 新增 `scripts/write_obsidian_note.py`。
 - [ ] README 补充脚本使用方式。
@@ -365,7 +365,7 @@ AI/eval
 
 ## 11. 近期建议
 
-下一步不要继续扩写 `SKILL.md`，而应先做三件事：
+本轮已经完成三件事：
 
 1. 新增 `references/note-template.md`，把当前五段式模板搬进去。
 2. 新增 `scripts/resolve_obsidian_vault.py`，解决跨用户 Obsidian 检测和 vault 选择。

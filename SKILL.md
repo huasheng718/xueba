@@ -163,6 +163,8 @@ Default output for Study Mode is a single Markdown file saved under `88-学习/`
 
 Before writing files, resolve Obsidian and the target vault at runtime.
 
+Prefer running `scripts/resolve_obsidian_vault.py --json` when local script execution is available. Use the text workflow below as the fallback when scripts are unavailable.
+
 ### 1. Detect Obsidian Availability
 
 First determine whether Obsidian is available on the local machine when the user explicitly wants content placed into or opened in Obsidian.
@@ -243,71 +245,7 @@ Example paths:
 88-学习/产品/PRD/高质量 PRD 的结构化写法.md
 ```
 
-Use one coherent note that contains the full learning experience. The default shape should be close to this:
-
-```markdown
----
-title: "系统化专题：[主题]"
-tags:
-  - status/seed
-  - type/system-note
-  - domain/[domain]
-  - source/[source-type]
-  - access/[access-type]
-  - confidence/[level]
-source: "[source]"
-created: "YYYY-MM-DD"
----
-
-# 系统化专题：[[主题]]
-
-> [!abstract] 一句话系统本质
-> 用不超过 100 字说明这个知识解决的核心问题、底层机制和适用价值。不要写“本文介绍了...”，直接给本质判断。
-
-## 1. 全景
-
-```text
-[[核心主题]]
-├── 核心痛点 (Why) -> 为什么需要它？
-├── 底层机制 (What) -> 它的核心骨架与运转逻辑是什么？
-├── 落地路径 (How) -> 如何应用、实施或复用？
-└── 边界风险 (Limits) -> 何时失效、误区是什么？
-```
-
-## 2. 概念
-
-| 概念 | 一句话解释 | 边界/误区 | 可拆卡 | 来源锚点 |
-|---|---|---|---|---|
-| [[概念A]] |  |  | 是/否 |  |
-
-## 3. 正文
-
-### Why：问题与背景
-
-### What：机制与结构
-
-### How：应用与步骤
-
-### Limits：边界与误区
-
-### Links：和已有知识/工作的连接
-
-## 4. 练习
-
-### 费曼自测
-
-### 闭卷回忆
-
-### 迁移任务
-
-### 复习节奏
-
-## 5. 来源
-
-### 来源与可信度
-
-### 质量检查
-```
+Use one coherent note that contains the full learning experience. When writing the default single-file note, read and follow `references/note-template.md`.
 
 Use Obsidian double links selectively inside this single note. If a concept deserves a future card, link it and mark it as "可拆卡", but do not create the separate card unless requested. Avoid making the output look like many small disconnected notes pasted together; the note must read as one complete explanation.
 
@@ -469,39 +407,7 @@ Adapt the plan if the user has an exam date, project deadline, or weekly cadence
 
 ### 7. Run Quality Gate
 
-In default one-file mode, include this checklist as a section inside the note. In asset-package mode, create `qa.md`.
-
-```markdown
-## 5. 来源
-
-### 来源与可信度
-
-### 质量检查
-
-#### 来源追踪
-- [ ] 关键论断有来源锚点
-- [ ] 原文观点、AI 转述、推理扩展已区分
-- [ ] 不确定内容已标记
-
-#### TAG 流
-- [ ] 标签使用受控词表
-- [ ] domain 标签没有过度推断
-- [ ] status/type/source/confidence 四类标签齐全
-
-#### 双链
-- [ ] 只链接长期可复用概念
-- [ ] 没有给普通关键词制造伪双链
-- [ ] 概念卡文件名稳定、无来源名污染
-
-#### 学习效果
-- [ ] 单文件像一篇完整系统化专题，而不是零散卡片堆叠
-- [ ] 主目录保持简洁：全景、概念、正文、练习、来源
-- [ ] 正文覆盖 Why / What / How / Limits
-- [ ] 概念卡包含定义、边界、反例、误区、应用
-- [ ] 费曼题暴露理解难点
-- [ ] 练习题包含答案或评分标准
-- [ ] 复习计划有日期/间隔/任务量
-```
+In default one-file mode, include the quality checklist from `references/note-template.md` under `## 5. 来源`. In asset-package mode, create `qa.md` with the same checks adapted to the generated package.
 
 If an item cannot pass, explain the gap and how to fix it.
 
