@@ -17,7 +17,8 @@ from pathlib import Path
 from typing import Any
 
 
-DOWNLOAD_URL = "https://obsidian.md/zh/"
+INSTALL_SOURCE_URL = "https://github.com/obsidianmd/obsidian-releases"
+INSTALLER_COMMAND = "python scripts/install_obsidian.py --json"
 
 
 def _home() -> Path:
@@ -57,7 +58,9 @@ def detect_obsidian() -> dict[str, Any]:
     return {
         "installed": bool(found_paths),
         "paths": found_paths,
-        "download_url": DOWNLOAD_URL if not found_paths else None,
+        "install_required": not bool(found_paths),
+        "install_source": INSTALL_SOURCE_URL if not found_paths else None,
+        "installer_command": INSTALLER_COMMAND if not found_paths else None,
     }
 
 
@@ -267,12 +270,14 @@ def main() -> int:
             warnings.append(f"Explicit vault path does not contain .obsidian: {vault['path']}")
 
     if not obsidian["installed"]:
-        warnings.append(f"Obsidian was not detected. Install it from {DOWNLOAD_URL} or provide a vault path.")
+        warnings.append(f"Obsidian was not detected. Install it from {INSTALL_SOURCE_URL} before saving to Obsidian.")
 
     output = {
         "obsidian_installed": obsidian["installed"],
         "obsidian_paths": obsidian["paths"],
-        "download_url": obsidian["download_url"],
+        "install_required": obsidian["install_required"],
+        "install_source": obsidian["install_source"],
+        "installer_command": obsidian["installer_command"],
         "vaults": vaults,
         "selected_vault": selected_vault,
         "warnings": warnings,
@@ -280,7 +285,7 @@ def main() -> int:
     }
 
     if not obsidian["installed"]:
-        output["next_action"] = f"Install Obsidian from {DOWNLOAD_URL} or provide a vault path."
+        output["next_action"] = f"Run `{INSTALLER_COMMAND}` to install Obsidian from {INSTALL_SOURCE_URL}, then rerun this resolver."
     elif not selected_vault:
         output["next_action"] = "Ask the user to choose a vault path or provide one explicitly."
 

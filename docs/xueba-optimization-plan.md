@@ -50,6 +50,7 @@ xueba/
 │   └── upgrade-mode.md
 ├── scripts/
 │   ├── resolve_obsidian_vault.py
+│   ├── install_obsidian.py
 │   ├── classify_learning_path.py
 │   └── write_obsidian_note.py
 └── evals/
@@ -149,9 +150,26 @@ python scripts/resolve_obsidian_vault.py --json
 {
   "obsidian_installed": false,
   "selected_vault": null,
-  "next_action": "Install Obsidian from https://obsidian.md/zh/ or provide a vault path."
+  "install_required": true,
+  "install_source": "https://github.com/obsidianmd/obsidian-releases",
+  "installer_command": "python scripts/install_obsidian.py --json",
+  "next_action": "Run `python scripts/install_obsidian.py --json` to install Obsidian from https://github.com/obsidianmd/obsidian-releases, then rerun this resolver."
 }
 ```
+
+#### `install_obsidian.py`
+
+输入：
+
+```bash
+python scripts/install_obsidian.py --json
+```
+
+行为：
+
+- 从官方 GitHub releases 仓库 `obsidianmd/obsidian-releases` 获取最新版本。
+- 根据当前 OS 选择 `.dmg`、`.AppImage`、`.deb` 或 `.exe`。
+- 安装完成后要求重新运行 `resolve_obsidian_vault.py`。
 
 #### `classify_learning_path.py`
 
@@ -281,7 +299,7 @@ AI/eval
 |---|---|
 | 公开网页 | 有来源、access/public、保存到 `88-学习/` |
 | 登录页 | 不伪造内容，返回 blocked 或要求导出 |
-| Obsidian 未安装 | 提示 https://obsidian.md/zh/ |
+| Obsidian 未安装 | 从 `obsidianmd/obsidian-releases` 安装并复检 |
 | 多 vault | 不擅自选择，要求确认 |
 | 单文件输出 | 主目录仅为全景/概念/正文/练习/来源 |
 | 分类 | AI skills 进入 `88-学习/AI/skills/` |
@@ -316,13 +334,14 @@ AI/eval
 ### Phase 2：脚本化 Obsidian 流程
 
 - [x] 新增 `scripts/resolve_obsidian_vault.py`。
+- [x] 新增 `scripts/install_obsidian.py`。
 - [x] 新增 `scripts/classify_learning_path.py`。
 - [x] 新增 `scripts/write_obsidian_note.py`。
 - [x] README 补充脚本使用方式。
 
 验收：
 
-- 无 Obsidian 时返回安装提示。
+- 无 Obsidian 时从官方 GitHub releases 安装并复检。
 - 有多个 vault 时返回候选列表。
 - 成功写入时只报告最终 Obsidian 路径。
 

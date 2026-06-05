@@ -32,7 +32,7 @@
 写入前应先动态解析 Obsidian 环境：
 
 - 先检查本机是否安装 Obsidian。
-- 如果未检测到 Obsidian，提示用户到官方中文下载页安装：https://obsidian.md/zh/
+- 如果未检测到 Obsidian，直接从官方 GitHub releases 安装：https://github.com/obsidianmd/obsidian-releases
 - 再通过 Obsidian 本地配置、`.obsidian` 目录搜索或用户显式路径定位 vault。
 - 不写死任何本机绝对 vault 路径。
 - 不把 `obsidian://` 深链当作保存目标；保存目标必须是真实 vault 文件夹。
@@ -144,11 +144,13 @@ tags:
 
 ```bash
 python scripts/resolve_obsidian_vault.py --json
+python scripts/install_obsidian.py --json
 python scripts/classify_learning_path.py --title "Agent Skills 开放技能标准与工程实践" --domain-tag domain/ai/skills
 python scripts/write_obsidian_note.py --vault "/path/to/vault" --relative-dir "88-学习/AI/skills" --filename "Agent Skills：开放技能标准与工程实践.md" --content-file note.md
 ```
 
 - `resolve_obsidian_vault.py`：只读检测 Obsidian 安装和候选 vault。
+- `install_obsidian.py`：未检测到 Obsidian 时，从 `obsidianmd/obsidian-releases` 获取最新安装包并安装。
 - `classify_learning_path.py`：输出 `88-学习/[大学科]/[章节]/` 这类简洁相对目录和安全文件名。
 - `write_obsidian_note.py`：校验目标 vault、确保路径在 `88-学习/` 下、创建目录、防止默认覆盖同名笔记。
 

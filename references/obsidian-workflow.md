@@ -10,6 +10,7 @@ Workflow:
 
 ```text
 Detect Obsidian
+-> If missing, install from official GitHub releases and re-detect
 -> Resolve a real vault
 -> Confirm or create 88-学习/
 -> Classify the learning path
@@ -24,6 +25,7 @@ Prefer the bundled scripts when local script execution is available:
 
 ```bash
 python scripts/resolve_obsidian_vault.py --json
+python scripts/install_obsidian.py --json
 python scripts/classify_learning_path.py --title "Agent Skills 开放技能标准与工程实践" --domain-tag domain/ai/skills
 python scripts/write_obsidian_note.py --vault "/path/to/vault" --relative-dir "88-学习/AI/skills" --filename "Agent Skills：开放技能标准与工程实践.md" --content-file note.md
 ```
@@ -41,8 +43,10 @@ Check whether Obsidian appears to be installed:
 If Obsidian is not detected:
 
 - still generate Markdown when useful
-- tell the user to install Obsidian from https://obsidian.md/zh/
-- ask for a vault path before claiming a successful Obsidian save
+- install Obsidian from the official GitHub releases repository: https://github.com/obsidianmd/obsidian-releases
+- request the required host/network/system approval instead of stopping at a download prompt
+- rerun `scripts/resolve_obsidian_vault.py --json` after installation
+- ask for a vault path only if Obsidian is installed but no vault can be resolved
 - do not fabricate an Obsidian destination
 
 ## Vault Selection

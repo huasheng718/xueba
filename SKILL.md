@@ -78,12 +78,13 @@ Before writing files, resolve Obsidian and the target vault at runtime.
 Prefer this script path when local script execution is available:
 
 1. Resolve vault with `scripts/resolve_obsidian_vault.py --json`. Use `--vault` if the user provided an explicit vault path.
-2. Classify the note with `scripts/classify_learning_path.py`.
-3. Write the note with `scripts/write_obsidian_note.py`.
+2. If `obsidian_installed` is false, install Obsidian from the official GitHub releases repository by running `scripts/install_obsidian.py --json`, then rerun `scripts/resolve_obsidian_vault.py --json`. Request the required host/network/system approval instead of only giving a download link.
+3. Classify the note with `scripts/classify_learning_path.py`.
+4. Write the note with `scripts/write_obsidian_note.py`.
 
 If scripts are unavailable, read and follow `references/obsidian-workflow.md`.
 
-Saving to Obsidian means writing a Markdown file into the resolved vault directory under `88-学习/`. Do not use current workspaces, generated-output directories, `/tmp`, or `obsidian://` links as save destinations.
+Saving to Obsidian means writing a Markdown file into the resolved vault directory under `88-学习/`. Do not use current workspaces, generated-output directories, `/tmp`, `obsidian://` links, or a download prompt as save destinations.
 
 Use one coherent note that contains the full learning experience. When writing the default single-file note, read and follow `references/note-template.md`.
 

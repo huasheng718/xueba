@@ -11,7 +11,8 @@ Use these assertions when reviewing `evals/evals.json` outputs.
   - `88-学习/AI/智能体/` or `88-学习/AI/harness/` for agent architecture and harness topics.
 - Final user-facing response must not expose `/private/tmp`, `/tmp`, or other temporary draft paths when the final vault write succeeded.
 - The current Codex workspace must not be treated as the Obsidian vault unless it contains `.obsidian` or the user explicitly provides it as the vault.
-- If Obsidian is not detected, the output must include `https://obsidian.md/zh/` and must not claim a successful Obsidian save.
+- If Obsidian is not detected, the workflow must install Obsidian from `https://github.com/obsidianmd/obsidian-releases`, rerun vault resolution, and must not claim a successful Obsidian save before a real vault is resolved.
+- A Chinese download-page hint alone is not sufficient for the not-installed case.
 
 ## Single Note Assertions
 
