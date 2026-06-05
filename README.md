@@ -138,6 +138,20 @@ tags:
 
 默认五段式模板已移到 `references/note-template.md`，作为单文件学习笔记的唯一模板来源。主标题固定保持简洁：`全景`、`概念`、`正文`、`练习`、`来源`。
 
+## 脚本
+
+技能内置 3 个通用脚本，用于减少跨用户路径错误：
+
+```bash
+python scripts/resolve_obsidian_vault.py --json
+python scripts/classify_learning_path.py --title "Agent Skills 开放技能标准与工程实践" --domain-tag domain/ai/skills
+python scripts/write_obsidian_note.py --vault "/path/to/vault" --relative-dir "88-学习/AI/skills" --filename "Agent Skills：开放技能标准与工程实践.md" --content-file note.md
+```
+
+- `resolve_obsidian_vault.py`：只读检测 Obsidian 安装和候选 vault。
+- `classify_learning_path.py`：输出 `88-学习/[大学科]/[章节]/` 这类简洁相对目录和安全文件名。
+- `write_obsidian_note.py`：校验目标 vault、确保路径在 `88-学习/` 下、创建目录、防止默认覆盖同名笔记。
+
 ## 测试提示
 
-测试用例保存在 `evals/evals.json`。后续可按 `skill-creator` 流程运行评估。
+测试用例保存在 `evals/evals.json`，触发边界保存在 `evals/trigger-evals.json`，断言说明保存在 `evals/assertions.md`。后续可按 `skill-creator` 流程运行评估。

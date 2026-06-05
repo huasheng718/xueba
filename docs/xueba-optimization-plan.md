@@ -303,9 +303,9 @@ AI/eval
 ### Phase 1：整理与拆分
 
 - [x] 新增 `references/note-template.md`。
-- [ ] 新增 `references/obsidian-workflow.md`。
-- [ ] 新增 `references/authenticated-sources.md`。
-- [ ] 新增 `references/upgrade-mode.md`。
+- [x] 新增 `references/obsidian-workflow.md`。
+- [x] 新增 `references/authenticated-sources.md`。
+- [x] 新增 `references/upgrade-mode.md`。
 - [x] 精简 `SKILL.md` 到高层规则和加载指令。
 
 验收：
@@ -316,9 +316,9 @@ AI/eval
 ### Phase 2：脚本化 Obsidian 流程
 
 - [x] 新增 `scripts/resolve_obsidian_vault.py`。
-- [ ] 新增 `scripts/classify_learning_path.py`。
-- [ ] 新增 `scripts/write_obsidian_note.py`。
-- [ ] README 补充脚本使用方式。
+- [x] 新增 `scripts/classify_learning_path.py`。
+- [x] 新增 `scripts/write_obsidian_note.py`。
+- [x] README 补充脚本使用方式。
 
 验收：
 
@@ -328,9 +328,9 @@ AI/eval
 
 ### Phase 3：Eval 建设
 
-- [ ] 新增 `evals/trigger-evals.json`。
-- [ ] 扩展 `evals/evals.json`。
-- [ ] 新增 `evals/assertions.md`。
+- [x] 新增 `evals/trigger-evals.json`。
+- [x] 扩展 `evals/evals.json`。
+- [x] 新增 `evals/assertions.md`。
 - [ ] 对至少 8 个核心场景跑一次人工评估。
 
 验收：
@@ -365,10 +365,18 @@ AI/eval
 
 ## 11. 近期建议
 
-本轮已经完成三件事：
+当前已完成：
 
 1. 新增 `references/note-template.md`，把当前五段式模板搬进去。
 2. 新增 `scripts/resolve_obsidian_vault.py`，解决跨用户 Obsidian 检测和 vault 选择。
 3. 新增 eval，尤其是“最终回复不得暴露 `/private/tmp`”和“保存路径必须在 `88-学习/` 下”。
+4. 新增 `references/tag-taxonomy.md`、`references/obsidian-workflow.md`、`references/authenticated-sources.md`、`references/upgrade-mode.md`，把长规则拆出 `SKILL.md`。
+5. 新增 `scripts/classify_learning_path.py` 和 `scripts/write_obsidian_note.py`，把分类和写入流程脚本化。
+6. 新增 `evals/trigger-evals.json`，补齐触发边界评估入口。
 
-这三项完成后，学霸才算从“能用的技能”进入“可评估、可维护、可迁移的技能包”。
+剩余重点：
+
+1. 对至少 8 个核心场景跑一次人工评估。
+2. 根据评估结果优化 `description` 和误触发/漏触发边界。
+3. 把常见失败案例沉淀进 references。
+4. 发布一个稳定版本 tag。
