@@ -25,7 +25,7 @@ The user's preferred knowledge style is TAG flow: light folders, strong tags, st
 - Default to report-first when upgrading existing notes. Do not rewrite the user's notes unless they explicitly ask you to apply changes.
 - Default to one-file output in Study Mode. The single note should resemble a polished Obsidian system topic note: abstract, mental map, concept network, Why/What/How, boundaries, Feynman loop, exercises, sources, and QA. Do not split into MOC, concepts, questions, and exercises as separate files unless the user explicitly asks for a knowledge asset package, concept cards, or long-term vault decomposition.
 - Treat authenticated sources as a normal input class. Try safe authorization paths before giving up, but never bypass access controls, scrape cookies/tokens, ask for passwords, or fabricate content from a login page.
-- Save durable learning notes into the user's Obsidian knowledge folders, not only into a generated-output scratch area. Use `09_生成输出` only for drafts, tests, failure reports, or intermediate artifacts unless the user explicitly wants generated output there.
+- Save durable learning notes into the resolved Obsidian vault under `88-学习/`, not into machine-specific folders, existing personal taxonomies, or a generated-output scratch area. Use generated-output folders only for drafts, tests, failure reports, or intermediate artifacts when the user explicitly wants them.
 - Saving to Obsidian means writing into the user's actual Obsidian vault, not merely the current Codex workspace. Resolve the live vault before saving.
 - Do not hard-code machine-specific vault paths or Obsidian deep links in this skill. Treat Obsidian as local software plus a set of vault directories that must be discovered or provided at runtime.
 
@@ -157,7 +157,7 @@ If the domain is unclear, use `domain/unknown`. Do not force second or third lev
 
 ## Study Mode Output
 
-Default output for Study Mode is a single Markdown file saved into the Obsidian vault's formal knowledge area. First locate the vault/root and choose the best domain folder; do not assume `09_生成输出` is the final destination.
+Default output for Study Mode is a single Markdown file saved under `88-学习/` in the resolved Obsidian vault. First locate the vault/root, then create or reuse the `88-学习/` learning root and choose content-based subfolders under it.
 
 ## Obsidian Vault Resolution
 
@@ -205,27 +205,41 @@ Saving to Obsidian means writing a Markdown file into the resolved vault directo
 
 Only after a real vault path is known:
 
-- choose a destination folder by matching the note topic to existing folders in that vault
-- create parent folders only when they fit the existing vault style or the user approved them
+- use `[vault]/88-学习/` as the learning root; create `88-学习/` if it does not exist
+- classify the learning material by content and create/reuse sensible subfolders under `88-学习/`
 - report the absolute saved file path
 
 Opening Obsidian is optional. If requested or useful, first verify Obsidian is installed, then use an OS-level opener or construct an Obsidian deep link dynamically from the resolved vault name and relative file path. Never hard-code an `obsidian://` URL in the skill.
 
-For a resolved vault, prefer these destination patterns when matching folders already exist:
+### 4. Learning Folder Classification
+
+This is a general-purpose skill for many users and machines. Do not encode one user's local folder taxonomy into the skill.
+
+Use this default layout:
 
 ```text
-02-AI与数字化/智能体与技能/        # AI, Agent, skills, harness, MCP
-02-AI与数字化/AI事项知识库/        # AI operations, AI task knowledge base
-03-CRM与客户运营/                  # CRM, customer operations, business systems
-01-经营管理/                       # strategy, organization, management methods
-05-需求与产品/                     # product, PRD, requirements, UX
-09_生成输出/学霸/                  # drafts, tests, failed-source reports, intermediate outputs only
+88-学习/
+  [一级分类]/
+    [二级主题]/
+      [主题].md
 ```
 
-If no formal folder clearly matches, create a reasonable domain folder at the vault root using the existing naming style, or save under `09_生成输出/学霸/单文件学习笔记/` and clearly mark it as a draft that needs filing.
+Classification guidance:
+
+- Prefer short Chinese folder names for readability unless the vault clearly uses another language.
+- Create only folders that are useful for retrieval; avoid over-nesting.
+- Infer `一级分类` from the durable knowledge domain, for example `AI与智能体`, `产品与需求`, `经营管理`, `技术架构`, `业务运营`, `读书笔记`, `研究论文`, `工具方法`.
+- Infer `二级主题` from the specific subject, for example `Agent Harness`, `RAG`, `CRM`, `OKR`, `费曼学习法`.
+- If classification confidence is low, save under `88-学习/待分类/` and add `domain/unknown` or a conservative domain tag.
+- Do not save final learning notes into any generated-output scratch area by default.
+- If the user explicitly provides a destination folder, respect it after confirming it is inside the resolved vault.
+
+Example paths:
 
 ```text
-[formal-domain-folder]/[topic].md
+88-学习/AI与智能体/Agent Harness/Agent 与 Agent Harness：核心架构.md
+88-学习/经营管理/OKR/OKR 与 KPI：目标管理机制.md
+88-学习/产品与需求/PRD/高质量 PRD 的结构化写法.md
 ```
 
 Use one coherent note that contains the full learning experience. The default shape should be close to this:
@@ -350,7 +364,7 @@ Before generating notes, infer or ask for:
 - User goal: overview, work application, exam prep, research, or decision support
 - Target difficulty: beginner, intermediate, advanced
 - Prior knowledge
-- Desired output location if saving files; if not provided, infer a formal Obsidian destination from topic and existing folders
+- Desired output location if saving files; if not provided, save under `88-学习/` and infer content-based subfolders from the topic
 
 If the user wants you to continue without clarification, make conservative assumptions and record them in the single output note.
 

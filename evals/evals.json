@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "我发现一篇讲 AI Agent 记忆系统设计的长文，链接是 https://example.com/agent-memory 。帮我系统学习后，按 TAG 流沉淀到 Obsidian，要求有概念卡、费曼自测和复习计划。",
-      "expected_output": "默认应先检测本机是否安装 Obsidian；如果未检测到 Obsidian，应提示用户到官方中文下载页 https://obsidian.md/zh/ 安装，再要求用户提供 vault 路径后才声称已保存到 Obsidian。若已安装，则动态定位真实 Obsidian vault：优先用户显式路径，其次读取平台 Obsidian 配置中当前打开或最近使用的 vault，再搜索 `.obsidian` 目录；不能写死任何本机绝对路径，也不能把当前 Codex 工作区当 vault，除非它包含 `.obsidian` 或用户明确指定。然后生成一篇完整 Markdown 系统化专题，并保存到匹配主题的 Obsidian 正式知识分类目录，而不是只放到 09_生成输出。笔记内包含一句话系统本质、Mental Map、原子概念与双链网、Why/What/How/Limits、费曼闭环、迁移练习、来源索引和质量验收。只有用户明确要求多文件资产包时才拆出独立概念卡；若网页无法访问，应返回结构化失败原因并要求用户补充正文。",
+      "expected_output": "默认应先检测本机是否安装 Obsidian；如果未检测到 Obsidian，应提示用户到官方中文下载页 https://obsidian.md/zh/ 安装，再要求用户提供 vault 路径后才声称已保存到 Obsidian。若已安装，则动态定位真实 Obsidian vault：优先用户显式路径，其次读取平台 Obsidian 配置中当前打开或最近使用的 vault，再搜索 `.obsidian` 目录；不能写死任何本机绝对路径，也不能把当前 Codex 工作区当 vault，除非它包含 `.obsidian` 或用户明确指定。然后生成一篇完整 Markdown 系统化专题，并保存到 vault 下的 `88-学习/`：如果没有该目录则创建，如果已有则复用，再根据学习内容智能分类成一级分类和二级主题；不得使用某个用户本机已有的个人目录结构，也不得只放到生成输出区。笔记内包含一句话系统本质、Mental Map、原子概念与双链网、Why/What/How/Limits、费曼闭环、迁移练习、来源索引和质量验收。只有用户明确要求多文件资产包时才拆出独立概念卡；若网页无法访问，应返回结构化失败原因并要求用户补充正文。",
       "files": []
     },
     {
@@ -28,7 +28,7 @@
     {
       "id": 5,
       "prompt": "测试技能，学习 https://github.com/kevinten-ai/agent-harness-guide 。我不想要一堆零散文件，希望一个 md 文件说清楚所有东西。",
-      "expected_output": "必须输出一个单文件 Markdown 系统化专题，并保存到动态解析出的真实 Obsidian vault 的 AI/Agent 正式分类目录；必须先检查 Obsidian 是否安装，若未安装需提示官方中文下载页 https://obsidian.md/zh/，并通过用户路径、Obsidian 配置或 `.obsidian` 搜索定位 vault，不能写死本机绝对路径，不能写死 obsidian:// URL，也不能只写入当前 Codex 工作区或 09_生成输出；结构接近 GraphRAG 示例：Frontmatter、一句话系统本质 callout、知识全景架构树、原子概念与双链网、系统化内容详解（Why/What/How/Limits）、费曼闭环、练习、复习计划、来源和质量验收；不应默认拆成 concepts/questions/exercises 多个文件，也不应像多张零散卡片拼接。",
+      "expected_output": "必须输出一个单文件 Markdown 系统化专题，并保存到动态解析出的真实 Obsidian vault 下的 `88-学习/AI与智能体/Agent Harness/` 或等价智能分类路径；必须先检查 Obsidian 是否安装，若未安装需提示官方中文下载页 https://obsidian.md/zh/，并通过用户路径、Obsidian 配置或 `.obsidian` 搜索定位 vault，不能写死本机绝对路径，不能写死 obsidian:// URL，也不能只写入当前 Codex 工作区或生成输出区；如果 `88-学习/` 不存在应创建，存在则复用；结构接近 GraphRAG 示例：Frontmatter、一句话系统本质 callout、知识全景架构树、原子概念与双链网、系统化内容详解（Why/What/How/Limits）、费曼闭环、练习、复习计划、来源和质量验收；不应默认拆成 concepts/questions/exercises 多个文件，也不应像多张零散卡片拼接。",
       "files": []
     },
     {
