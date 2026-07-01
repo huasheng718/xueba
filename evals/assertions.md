@@ -24,8 +24,11 @@ Use these assertions when reviewing `evals/evals.json` outputs.
   - `## 4. 练习`
   - `## 5. 来源`
 - `## 3. 正文` should cover Why / What / How / Limits.
+- The note should include learning goals, prerequisite knowledge when relevant, and a topic map.
+- When there are multiple reusable concepts, the concept table should include stable concept IDs such as `C001`.
+- Source-grounded claims, inferred conclusions, missing content, and uncertain content should be marked with labels such as `原文依据`, `推论`, `待补充`, and `待验证`.
 - `## 4. 练习` should include answers, scoring rules, or expected outputs.
-- `## 5. 来源` should include source access method, source list, confidence, limitations, and quality checks.
+- `## 5. 来源` should include source access method, source list, confidence, limitations, an AI-readable YAML area, and quality checks.
 
 ## Frontmatter Assertions
 

@@ -32,7 +32,8 @@
 写入前应先动态解析 Obsidian 环境：
 
 - 先检查本机是否安装 Obsidian。
-- 如果未检测到 Obsidian，直接从官方 GitHub releases 安装：https://github.com/obsidianmd/obsidian-releases
+- 如果未检测到 Obsidian，先说明官方 GitHub releases 来源并请求用户或宿主批准：https://github.com/obsidianmd/obsidian-releases
+- 获得批准后再运行安装脚本；未获批准时可以生成草稿，但不能声称已经保存到 Obsidian。
 - 再通过 Obsidian 本地配置、`.obsidian` 目录搜索或用户显式路径定位 vault。
 - 不写死任何本机绝对 vault 路径。
 - 不把 `obsidian://` 深链当作保存目标；保存目标必须是真实 vault 文件夹。
@@ -60,16 +61,16 @@
 单文件内包含：
 
 - 一句话系统本质
-- `全景`：核心脉络和 Why / What / How / Limits
-- `概念`：核心概念、双链和可拆卡候选
-- `正文`：问题、机制、应用、边界、关联
+- `全景`：学习目标、前置知识、核心脉络和 Why / What / How / Limits
+- `概念`：核心概念、概念 ID、别名、关系、双链和可拆卡候选
+- `正文`：问题、机制、应用、边界、依据、推论、待补充/待验证和关联
 - `练习`：费曼自测、闭卷回忆、迁移任务、复习节奏
-- `来源`：来源与可信度、质量检查
+- `来源`：来源与可信度、AI 读取区、质量检查
 
-可选资产包模式才生成：
+可选资产包模式才生成，并保存到真实 vault 的 `88-学习/` 下：
 
 ```text
-学霸/[主题]/
+88-学习/[大学科]/[章节或知识要点]/[主题]/
   index.md
   overview.md
   notes.md
@@ -84,7 +85,7 @@
 升级模式默认生成：
 
 ```text
-学霸/知识库升级报告/YYYY-MM-DD-知识库升级报告.md
+88-学习/工具/Obsidian/知识库升级报告/YYYY-MM-DD-知识库升级报告.md
 ```
 
 ## TAG 规范
@@ -126,9 +127,10 @@ tags:
 
 - 双链只用于长期可复用概念。
 - 关键论断必须有来源锚点。
-- 原文观点、AI 转述、推理扩展需要区分。
+- 原文观点、AI 转述、推理扩展、待补充和待验证内容需要区分。
 - 练习题必须包含答案或评分标准。
 - 复习计划必须有间隔和具体任务。
+- 概念较多时应使用 `C001` 这类稳定 ID，并在 AI 读取区输出关键词、概念关系和问答对。
 - 升级已有笔记时必须先报告后修改，避免污染知识库。
 - 学习新资料时默认一篇 Markdown 讲清楚，不要过早拆成多个零散文件。
 - 默认输出应像一篇完整的“系统化专题”，而不是多个卡片、摘录、问答的拼接。
@@ -140,17 +142,17 @@ tags:
 
 ## 脚本
 
-技能内置 3 个通用脚本，用于减少跨用户路径错误：
+技能内置 4 个通用脚本，用于减少跨用户路径错误：
 
 ```bash
-python scripts/resolve_obsidian_vault.py --json
-python scripts/install_obsidian.py --json
-python scripts/classify_learning_path.py --title "Agent Skills 开放技能标准与工程实践" --domain-tag domain/ai/skills
-python scripts/write_obsidian_note.py --vault "/path/to/vault" --relative-dir "88-学习/AI/skills" --filename "Agent Skills：开放技能标准与工程实践.md" --content-file note.md
+python3 scripts/resolve_obsidian_vault.py --json
+python3 scripts/install_obsidian.py --json
+python3 scripts/classify_learning_path.py --title "Agent Skills 开放技能标准与工程实践" --domain-tag domain/ai/skills
+python3 scripts/write_obsidian_note.py --vault "/path/to/vault" --relative-dir "88-学习/AI/skills" --filename "Agent Skills：开放技能标准与工程实践.md" --content-file note.md
 ```
 
 - `resolve_obsidian_vault.py`：只读检测 Obsidian 安装和候选 vault。
-- `install_obsidian.py`：未检测到 Obsidian 时，从 `obsidianmd/obsidian-releases` 获取最新安装包并安装。
+- `install_obsidian.py`：未检测到 Obsidian 且获得批准后，从 `obsidianmd/obsidian-releases` 获取最新安装包并安装。
 - `classify_learning_path.py`：输出 `88-学习/[大学科]/[章节]/` 这类简洁相对目录和安全文件名。
 - `write_obsidian_note.py`：校验目标 vault、确保路径在 `88-学习/` 下、创建目录、防止默认覆盖同名笔记。
 

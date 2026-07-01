@@ -124,7 +124,7 @@ When auditing a vault, read `references/upgrade-mode.md`.
 输入：
 
 ```bash
-python scripts/resolve_obsidian_vault.py --json
+python3 scripts/resolve_obsidian_vault.py --json
 ```
 
 输出：
@@ -152,8 +152,8 @@ python scripts/resolve_obsidian_vault.py --json
   "selected_vault": null,
   "install_required": true,
   "install_source": "https://github.com/obsidianmd/obsidian-releases",
-  "installer_command": "python scripts/install_obsidian.py --json",
-  "next_action": "Run `python scripts/install_obsidian.py --json` to install Obsidian from https://github.com/obsidianmd/obsidian-releases, then rerun this resolver."
+  "installer_command": "python3 scripts/install_obsidian.py --json",
+  "next_action": "Run `python3 scripts/install_obsidian.py --json` to install Obsidian from https://github.com/obsidianmd/obsidian-releases, then rerun this resolver."
 }
 ```
 
@@ -162,7 +162,7 @@ python scripts/resolve_obsidian_vault.py --json
 输入：
 
 ```bash
-python scripts/install_obsidian.py --json
+python3 scripts/install_obsidian.py --json
 ```
 
 行为：

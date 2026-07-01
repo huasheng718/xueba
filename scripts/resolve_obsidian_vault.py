@@ -18,7 +18,7 @@ from typing import Any
 
 
 INSTALL_SOURCE_URL = "https://github.com/obsidianmd/obsidian-releases"
-INSTALLER_COMMAND = "python scripts/install_obsidian.py --json"
+INSTALLER_COMMAND = "python3 scripts/install_obsidian.py --json"
 
 
 def _home() -> Path:

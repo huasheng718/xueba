@@ -10,7 +10,7 @@ Workflow:
 
 ```text
 Detect Obsidian
--> If missing, install from official GitHub releases and re-detect
+-> If missing, request approval, install from official GitHub releases when approved, and re-detect
 -> Resolve a real vault
 -> Confirm or create 88-学习/
 -> Classify the learning path
@@ -24,10 +24,10 @@ Detect Obsidian
 Prefer the bundled scripts when local script execution is available:
 
 ```bash
-python scripts/resolve_obsidian_vault.py --json
-python scripts/install_obsidian.py --json
-python scripts/classify_learning_path.py --title "Agent Skills 开放技能标准与工程实践" --domain-tag domain/ai/skills
-python scripts/write_obsidian_note.py --vault "/path/to/vault" --relative-dir "88-学习/AI/skills" --filename "Agent Skills：开放技能标准与工程实践.md" --content-file note.md
+python3 scripts/resolve_obsidian_vault.py --json
+python3 scripts/install_obsidian.py --json
+python3 scripts/classify_learning_path.py --title "Agent Skills 开放技能标准与工程实践" --domain-tag domain/ai/skills
+python3 scripts/write_obsidian_note.py --vault "/path/to/vault" --relative-dir "88-学习/AI/skills" --filename "Agent Skills：开放技能标准与工程实践.md" --content-file note.md
 ```
 
 Use `--vault` on `resolve_obsidian_vault.py` when the user gives an explicit vault path.
@@ -43,11 +43,13 @@ Check whether Obsidian appears to be installed:
 If Obsidian is not detected:
 
 - still generate Markdown when useful
-- install Obsidian from the official GitHub releases repository: https://github.com/obsidianmd/obsidian-releases
-- request the required host/network/system approval instead of stopping at a download prompt
+- request explicit user or host approval before installing Obsidian
+- install Obsidian from the official GitHub releases repository only when approved: https://github.com/obsidianmd/obsidian-releases
+- use `scripts/install_obsidian.py --json --dry-run` first when the user wants to see what will be installed
 - rerun `scripts/resolve_obsidian_vault.py --json` after installation
 - ask for a vault path only if Obsidian is installed but no vault can be resolved
 - do not fabricate an Obsidian destination
+- do not claim the note was saved to Obsidian until a real vault has been resolved and written
 
 ## Vault Selection
 
@@ -55,7 +57,7 @@ Resolve the target vault in this order:
 
 1. User-provided explicit vault path.
 2. Obsidian local config, preferring an open or recently used vault.
-3. Search likely document locations for `.obsidian` directories within permissions.
+3. If config does not identify a single vault, rerun the resolver with `--search` to search likely document locations for `.obsidian` directories within permissions.
 4. If there are multiple equally valid candidates, ask the user to choose.
 
 Do not treat the current workspace as the vault unless it contains `.obsidian` or the user explicitly says it is the vault.

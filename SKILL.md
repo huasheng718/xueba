@@ -1,6 +1,6 @@
 ---
 name: xueba
-description: Use this skill whenever the user wants to deeply study, digest, restructure, and save learning materials into an Obsidian vault using a tag-first knowledge system, or wants to inspect an existing Obsidian vault to find notes, concepts, tags, links, or knowledge areas that can be upgraded. Trigger for requests like “帮我学习这个资料/网站/论文/视频”, “系统学习后整理到 Obsidian”, “生成学习笔记、概念卡、费曼自测、练习题、复习计划”, “沉淀成 TAG 流知识资产”, “看看 Obsidian 里哪些知识可以升级”, “帮我体检知识库”, “找出过时/重复/薄弱/可合并的笔记”, “优化我的标签和双链”, or learning from login-required sources such as Feishu, Notion, Yuque, DingTalk, private wiki, internal docs, and authenticated web pages. This skill should be used even when the user only says “整理/消化/学习/沉淀/升级/改善/体检” and mentions Obsidian, 标签, 双链, 费曼, 复习, 知识库, existing notes, 飞书, 私有文档, 登录, 权限, 授权, or 内部资料.
+description: Use this skill whenever the user wants to deeply study, digest, restructure, and save learning materials into an Obsidian vault using a tag-first knowledge system, wants Markdown that is both human-learnable and AI-readable, or wants to inspect an existing Obsidian vault to find notes, concepts, tags, links, or knowledge areas that can be upgraded. Trigger for requests like “帮我学习这个资料/网站/论文/视频”, “系统学习后整理到 Obsidian”, “整理成适合 AI 读取复用的 Markdown”, “生成知识结构、概念关系、AI 读取区”, “生成学习笔记、概念卡、费曼自测、练习题、复习计划”, “沉淀成 TAG 流知识资产”, “看看 Obsidian 里哪些知识可以升级”, “帮我体检知识库”, “找出过时/重复/薄弱/可合并的笔记”, “优化我的标签和双链”, or learning from login-required sources such as Feishu, Notion, Yuque, DingTalk, private wiki, internal docs, and authenticated web pages. This skill should be used even when the user only says “整理/消化/学习/沉淀/升级/改善/体检/结构化/AI复用” and mentions Obsidian, Markdown, 标签, 双链, 概念关系, AI 读取区, 费曼, 复习, 知识库, existing notes, 飞书, 私有文档, 登录, 权限, 授权, or 内部资料.
 ---
 
 # 学霸
@@ -18,13 +18,16 @@ The user's preferred knowledge style is TAG flow: light folders, strong tags, st
 
 - Optimize for learning, not note volume. A large MOC or many files does not mean the user has learned the topic.
 - Keep every important claim traceable to a source, or mark it as an inference.
+- Mark missing, uncertain, inferred, and source-grounded knowledge explicitly with labels such as `待补充`, `待验证`, `推论`, and `原文依据`.
 - Use tags as controlled metadata. Do not invent near-duplicate tags.
 - Use double links only for durable concepts, models, methods, people, technologies, or questions worth reusing.
 - Distinguish source claims, AI synthesis, and user-context inference.
+- Make the note useful for both human study and future AI reuse: stable headings, concept IDs, aliases, keywords, and explicit concept relationships are useful when they do not bloat the note.
 - Produce exercises that force recall, explanation, transfer, and real work.
 - Default to report-first when upgrading existing notes. Do not rewrite the user's notes unless they explicitly ask you to apply changes.
 - Default to one-file output in Study Mode. The single note should resemble a polished Obsidian system topic note: abstract, mental map, concept network, Why/What/How, boundaries, Feynman loop, exercises, sources, and QA. Do not split into MOC, concepts, questions, and exercises as separate files unless the user explicitly asks for a knowledge asset package, concept cards, or long-term vault decomposition.
 - Treat authenticated sources as a normal input class. Try safe authorization paths before giving up, but never bypass access controls, scrape cookies/tokens, ask for passwords, or fabricate content from a login page.
+- Treat installing Obsidian or changing host applications as a host-system change. Explain the official source and command, use a dry run when useful, and proceed only when explicit user or host approval is available. If approval is unavailable, still prepare the learning draft, but do not claim it was saved to Obsidian.
 - Save durable learning notes into the resolved Obsidian vault under `88-学习/`, not into machine-specific folders, existing personal taxonomies, or a generated-output scratch area. Use generated-output folders only for drafts, tests, failure reports, or intermediate artifacts when the user explicitly wants them.
 - Saving to Obsidian means writing into the user's actual Obsidian vault, not merely the current Codex workspace. Resolve the live vault before saving.
 - Do not hard-code machine-specific vault paths or Obsidian deep links in this skill. Treat Obsidian as local software plus a set of vault directories that must be discovered or provided at runtime.
@@ -78,9 +81,10 @@ Before writing files, resolve Obsidian and the target vault at runtime.
 Prefer this script path when local script execution is available:
 
 1. Resolve vault with `scripts/resolve_obsidian_vault.py --json`. Use `--vault` if the user provided an explicit vault path.
-2. If `obsidian_installed` is false, install Obsidian from the official GitHub releases repository by running `scripts/install_obsidian.py --json`, then rerun `scripts/resolve_obsidian_vault.py --json`. Request the required host/network/system approval instead of only giving a download link.
-3. Classify the note with `scripts/classify_learning_path.py`.
-4. Write the note with `scripts/write_obsidian_note.py`.
+2. If Obsidian is installed but no `selected_vault` is found, rerun with `scripts/resolve_obsidian_vault.py --json --search`. Ask the user to choose only when multiple valid vaults remain or no vault can be resolved.
+3. If `obsidian_installed` is false, request explicit approval to install Obsidian from the official GitHub releases repository. Use `scripts/install_obsidian.py --json --dry-run` to show the matched release/asset when helpful, then run `scripts/install_obsidian.py --json` only after approval, and rerun `scripts/resolve_obsidian_vault.py --json`.
+4. Classify the note with `scripts/classify_learning_path.py`.
+5. Write the note with `scripts/write_obsidian_note.py`.
 
 If scripts are unavailable, read and follow `references/obsidian-workflow.md`.
 
@@ -101,7 +105,7 @@ Only create a multi-file asset package when:
 When needed, create this package:
 
 ```text
-学霸/[topic]/
+88-学习/[大学科]/[章节或知识要点]/[topic]/
   index.md
   overview.md
   notes.md
@@ -148,6 +152,7 @@ Before generating notes, infer or ask for:
 - User goal: overview, work application, exam prep, research, or decision support
 - Target difficulty: beginner, intermediate, advanced
 - Prior knowledge
+- Target reader or use case when it changes the depth or examples
 - Desired output location if saving files; if not provided, save under `88-学习/` and infer content-based subfolders from the topic
 
 If the user wants you to continue without clarification, make conservative assumptions and record them in the single output note.
@@ -162,6 +167,7 @@ Extract:
 - Section map
 - Important definitions, claims, numbers, formulas, code, and examples
 - Source anchors: URL, page number, heading, paragraph, timestamp, or file path
+- Source-grounded facts, author opinions, inferred conclusions, missing parts, and items that need verification
 
 Remove ads, navigation, repeated boilerplate, and low-value filler. Preserve technical details.
 
@@ -177,9 +183,17 @@ Reconstruct the material using this order:
 
 Do not copy the original table of contents unless it is already the best learning structure.
 
+Adapt the emphasis to the knowledge type:
+
+- Technical knowledge: include application scenarios, implementation pattern, prerequisites, and common pitfalls.
+- Theoretical knowledge: include definitions, assumptions, reasoning chain, boundary conditions, and counterexamples.
+- Practical knowledge: include procedure, inputs, outputs, checklist, example, and failure checks.
+
 ### 4. Handle Concepts
 
 In default one-file mode, include concepts in a table inside the note. Do not create separate concept files.
+
+Use stable concept IDs such as `C001` inside the concept table when the note has multiple reusable concepts. Keep the human-facing concept name as the primary label, and use the ID only as a retrieval/relationship handle.
 
 Create separate concept cards only in optional asset-package mode or when the user explicitly asks for cards.
 
@@ -238,7 +252,7 @@ Every question needs a reference answer, scoring criteria, or expected output. D
 
 Use spaced review intervals by default:
 
-- Day 1: recall core concepts and explain the MOC from memory.
+- Day 1: recall core concepts and explain the topic map from memory.
 - Day 3: answer Feynman questions and correct weak concepts.
 - Day 7: complete transfer exercise.
 - Day 14: solve a real task or write a one-page synthesis.
@@ -258,6 +272,8 @@ Use Upgrade Mode to evaluate and improve existing Obsidian knowledge. This mode 
 
 When auditing or upgrading a vault, read and follow `references/upgrade-mode.md`.
 
+When saving an Upgrade Mode report into the vault, use `88-学习/工具/Obsidian/知识库升级报告/YYYY-MM-DD-知识库升级报告.md` unless the user names another vault-relative path.
+
 Default to report-only. Do not rewrite existing notes unless the user explicitly asks you to apply changes.
 
 ## Markdown Templates
@@ -273,5 +289,7 @@ When done, report:
 - Main generated assets
 - Quality gate status
 - Next recommended review action
+
+Do not report temporary draft paths as final saved paths.
 
 Keep the response concise. The files should carry the detail.
