@@ -62,3 +62,9 @@ Use these assertions when reviewing `evals/evals.json` outputs.
   - `产品/PRD`
   - `管理/OKR`
 - If classification confidence is low, save under `88-学习/待分类/` and mark the domain conservatively.
+
+## Learning Expert Assertions
+
+- Requests to generate a learning expert, expert prompt, or productized xueba workflow should use Learning Expert Mode.
+- Learning Expert Mode outputs should include role anchoring, mission, capability precheck, workflow, delivery contract, quality gate, and final handoff.
+- Ordinary Study Mode should remain single-expert by default; do not simulate a multi-agent team unless the user explicitly asks for team design.

@@ -82,6 +82,22 @@
         "来源部分包含 AI 读取区 YAML",
         "AI 读取区包含 summary、concepts、relations、keywords、qa_pairs"
       ]
+    },
+    {
+      "id": 10,
+      "prompt": "基于学霸技能，帮我生成一个可长期复用的学习专家提示词/专家模式。要求像 WorkBuddy 专家那样产品化：有身份锚定、能力预检、工作流、交付标准和质量门禁，但不要默认假装有一整个专家团。",
+      "expected_output": "应进入 Learning Expert Mode，读取 references/learning-expert.md，输出或生成学霸学习专家定义。内容应包含 Role Override、核心使命、能力预检表、专家工作流、交付契约、质量门禁、最终交接规则；应说明普通学习任务保持单专家模式，不默认模拟多 Agent 团队；如用户要求专家团，只能作为后续设计提出主理人与成员职责，而不是在普通任务中伪造团队执行。",
+      "files": [],
+      "expectations": [
+        "进入 Learning Expert Mode",
+        "包含 Role Override 或身份锚定",
+        "包含能力预检表或预检流程",
+        "包含专家工作流",
+        "包含交付契约或交付标准",
+        "包含质量门禁",
+        "包含最终交接规则",
+        "明确普通学习任务不默认模拟多 Agent 专家团"
+      ]
     }
   ]
 }

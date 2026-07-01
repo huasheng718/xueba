@@ -1,6 +1,6 @@
 ---
 name: xueba
-description: Use this skill whenever the user wants to deeply study, digest, restructure, and save learning materials into an Obsidian vault using a tag-first knowledge system, wants Markdown that is both human-learnable and AI-readable, or wants to inspect an existing Obsidian vault to find notes, concepts, tags, links, or knowledge areas that can be upgraded. Trigger for requests like “帮我学习这个资料/网站/论文/视频”, “系统学习后整理到 Obsidian”, “整理成适合 AI 读取复用的 Markdown”, “生成知识结构、概念关系、AI 读取区”, “生成学习笔记、概念卡、费曼自测、练习题、复习计划”, “沉淀成 TAG 流知识资产”, “看看 Obsidian 里哪些知识可以升级”, “帮我体检知识库”, “找出过时/重复/薄弱/可合并的笔记”, “优化我的标签和双链”, or learning from login-required sources such as Feishu, Notion, Yuque, DingTalk, private wiki, internal docs, and authenticated web pages. This skill should be used even when the user only says “整理/消化/学习/沉淀/升级/改善/体检/结构化/AI复用” and mentions Obsidian, Markdown, 标签, 双链, 概念关系, AI 读取区, 费曼, 复习, 知识库, existing notes, 飞书, 私有文档, 登录, 权限, 授权, or 内部资料.
+description: Use this skill whenever the user wants to deeply study, digest, restructure, and save learning materials into an Obsidian vault using a tag-first knowledge system, wants Markdown that is both human-learnable and AI-readable, wants to generate or productize a learning expert/prompt/workflow, or wants to inspect an existing Obsidian vault to find notes, concepts, tags, links, or knowledge areas that can be upgraded. Trigger for requests like “帮我学习这个资料/网站/论文/视频”, “系统学习后整理到 Obsidian”, “整理成适合 AI 读取复用的 Markdown”, “生成知识结构、概念关系、AI 读取区”, “生成学习专家/学习专家提示词/学霸专家模式”, “把学习流程产品化成专家”, “生成学习笔记、概念卡、费曼自测、练习题、复习计划”, “沉淀成 TAG 流知识资产”, “看看 Obsidian 里哪些知识可以升级”, “帮我体检知识库”, “找出过时/重复/薄弱/可合并的笔记”, “优化我的标签和双链”, or learning from login-required sources such as Feishu, Notion, Yuque, DingTalk, private wiki, internal docs, and authenticated web pages. This skill should be used even when the user only says “整理/消化/学习/沉淀/升级/改善/体检/结构化/AI复用/专家化/产品化” and mentions Obsidian, Markdown, 标签, 双链, 概念关系, AI 读取区, 学习专家, 专家提示词, 费曼, 复习, 知识库, existing notes, 飞书, 私有文档, 登录, 权限, 授权, or 内部资料.
 ---
 
 # 学霸
@@ -9,6 +9,7 @@ Use this skill in two modes:
 
 1. Study Mode: turn dense or fragmented learning material into one coherent Obsidian study note by default, with optional asset-package expansion only when requested.
 2. Upgrade Mode: inspect an existing Obsidian vault or selected notes and identify knowledge that can be improved, merged, split, linked, retagged, verified, or turned into learning assets.
+3. Learning Expert Mode: generate, refine, or explain xueba as a productized learning expert with role anchoring, capability precheck, workflow, delivery contract, and quality gate.
 
 The goal is not to summarize a source. The goal is to create and maintain notes that support understanding, retrieval, review, transfer, and long-term knowledge growth. The first learning output should usually be one complete Markdown note that explains the topic end to end in the style of a "systematic topic note"; many files are useful only after the user wants long-term decomposition.
 
@@ -139,6 +140,15 @@ Choose Upgrade Mode when the user asks to:
 - build a learning roadmap from existing notes
 
 If the user asks for both, run Upgrade Mode first to understand the existing knowledge base, then run Study Mode for new material and connect it to existing notes.
+
+Choose Learning Expert Mode when the user asks to:
+
+- generate a learning expert, learning expert prompt, or xueba expert mode
+- productize a learning workflow into an expert/agent/skill
+- explain how xueba should behave as a learning expert
+- design a xueba expert team or multi-agent learning team
+
+When using Learning Expert Mode, read and follow `references/learning-expert.md`. Do not simulate a multi-agent team by default; keep ordinary learning tasks in single-expert mode unless the user explicitly asks for team design.
 
 ## Workflow
 
@@ -279,6 +289,8 @@ Default to report-only. Do not rewrite existing notes unless the user explicitly
 ## Markdown Templates
 
 Default single-file notes use `references/note-template.md`. Upgrade reports use `references/upgrade-mode.md`.
+
+Learning Expert Mode uses `references/learning-expert.md`.
 
 ## Final Response
 
