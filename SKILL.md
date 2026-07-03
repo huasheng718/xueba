@@ -1,15 +1,16 @@
 ---
 name: xueba
-description: Use this skill whenever the user wants to deeply study, digest, restructure, and save learning materials into an Obsidian vault using a tag-first knowledge system, wants Markdown that is both human-learnable and AI-readable, wants to generate or productize a learning expert/prompt/workflow, or wants to inspect an existing Obsidian vault to find notes, concepts, tags, links, or knowledge areas that can be upgraded. Trigger for requests like “帮我学习这个资料/网站/论文/视频”, “系统学习后整理到 Obsidian”, “整理成适合 AI 读取复用的 Markdown”, “生成知识结构、概念关系、AI 读取区”, “生成学习专家/学习专家提示词/学霸专家模式”, “把学习流程产品化成专家”, “生成学习笔记、概念卡、费曼自测、练习题、复习计划”, “沉淀成 TAG 流知识资产”, “看看 Obsidian 里哪些知识可以升级”, “帮我体检知识库”, “找出过时/重复/薄弱/可合并的笔记”, “优化我的标签和双链”, or learning from login-required sources such as Feishu, Notion, Yuque, DingTalk, private wiki, internal docs, and authenticated web pages. This skill should be used even when the user only says “整理/消化/学习/沉淀/升级/改善/体检/结构化/AI复用/专家化/产品化” and mentions Obsidian, Markdown, 标签, 双链, 概念关系, AI 读取区, 学习专家, 专家提示词, 费曼, 复习, 知识库, existing notes, 飞书, 私有文档, 登录, 权限, 授权, or 内部资料.
+description: Use when the user wants to study, digest, restructure, or save learning material into Obsidian TAG-flow Markdown; create human-learnable and AI-readable notes, concept maps, Feynman questions, exercises, or review plans; audit or upgrade an existing Obsidian vault; learn from authenticated Feishu/Notion/Yuque/DingTalk/private docs; generate a learning expert prompt or xueba expert mode; or clarify/agentize xueba as a skill, expert mode, agent object, or runtime agent. Trigger on 学霸, Obsidian, TAG流, 双链, 概念关系, AI读取区, 费曼, 复习计划, 知识库体检/升级, 学习专家, 专家提示词, 技能还是智能体, Xueba Agent, 智能体化学霸.
 ---
 
 # 学霸
 
-Use this skill in two modes:
+Use this skill in four modes:
 
 1. Study Mode: turn dense or fragmented learning material into one coherent Obsidian study note by default, with optional asset-package expansion only when requested.
 2. Upgrade Mode: inspect an existing Obsidian vault or selected notes and identify knowledge that can be improved, merged, split, linked, retagged, verified, or turned into learning assets.
 3. Learning Expert Mode: generate, refine, or explain xueba as a productized learning expert with role anchoring, capability precheck, workflow, delivery contract, and quality gate.
+4. Agent Design Mode: explain or design xueba as an agent object, including the boundary between skill, expert mode, and independent runtime agent.
 
 The goal is not to summarize a source. The goal is to create and maintain notes that support understanding, retrieval, review, transfer, and long-term knowledge growth. The first learning output should usually be one complete Markdown note that explains the topic end to end in the style of a "systematic topic note"; many files are useful only after the user wants long-term decomposition.
 
@@ -149,6 +150,10 @@ Choose Learning Expert Mode when the user asks to:
 - design a xueba expert team or multi-agent learning team
 
 When using Learning Expert Mode, read and follow `references/learning-expert.md`. Do not simulate a multi-agent team by default; keep ordinary learning tasks in single-expert mode unless the user explicitly asks for team design.
+
+Choose Agent Design Mode when the user asks whether xueba is a skill or agent, wants to agentize xueba, asks for an agent object/model/runtime, or wants to turn xueba into an independent long-running learning agent.
+
+When using Agent Design Mode, read and follow `references/xueba-agent.md`. Make the current boundary explicit: xueba currently exists as a Codex Skill with Learning Expert Mode, not as an independent runtime agent, unless a separate host runtime provides identity, memory, scheduler, permissions, observability, deployment, and lifecycle management.
 
 ## Workflow
 
@@ -291,6 +296,8 @@ Default to report-only. Do not rewrite existing notes unless the user explicitly
 Default single-file notes use `references/note-template.md`. Upgrade reports use `references/upgrade-mode.md`.
 
 Learning Expert Mode uses `references/learning-expert.md`.
+
+Agent Design Mode uses `references/xueba-agent.md`.
 
 ## Final Response
 

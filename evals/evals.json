@@ -98,6 +98,21 @@
         "包含最终交接规则",
         "明确普通学习任务不默认模拟多 Agent 专家团"
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "学霸现在到底是智能体还是技能？如果要升级成真正的 Xueba Agent，需要补哪些对象层和运行时能力？",
+      "expected_output": "应进入 Agent Design Mode，读取 references/xueba-agent.md，并直接说明当前学霸是 Skill 形态存在、Learning Expert Mode 运行，不是独立自运行 Agent。回答应区分 Skill、Expert Mode、Agent Object、Runtime Agent、Multi-Agent Team；应说明当前已有 SKILL.md、references/learning-expert.md、evals 和脚本，但还缺独立进程/服务、长期记忆索引、任务队列、调度器、独立工具权限、运行状态、监控、部署和生命周期；如果给升级路线，应包含身份、任务 schema、记忆、工具权限、调度、评测、观测和部署。",
+      "files": [],
+      "expectations": [
+        "进入 Agent Design Mode",
+        "明确当前学霸是 Skill 形态存在",
+        "明确当前学霸有 Learning Expert Mode",
+        "明确当前学霸不是独立自运行 Agent",
+        "区分 Skill、Expert Mode、Agent Object、Runtime Agent",
+        "说明缺少长期记忆、任务队列、调度器、独立权限、监控和部署生命周期",
+        "给出 Agent 对象层或运行时升级路线"
+      ]
     }
   ]
 }

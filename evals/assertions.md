@@ -68,3 +68,11 @@ Use these assertions when reviewing `evals/evals.json` outputs.
 - Requests to generate a learning expert, expert prompt, or productized xueba workflow should use Learning Expert Mode.
 - Learning Expert Mode outputs should include role anchoring, mission, capability precheck, workflow, delivery contract, quality gate, and final handoff.
 - Ordinary Study Mode should remain single-expert by default; do not simulate a multi-agent team unless the user explicitly asks for team design.
+
+## Agent Design Assertions
+
+- Requests asking whether xueba is a skill or agent should use Agent Design Mode.
+- Agent Design Mode outputs should distinguish Skill, Expert Mode, Agent Object, Runtime Agent, and Multi-Agent Team.
+- The output should state that xueba currently exists as a Codex Skill with Learning Expert Mode, not as an independent self-running runtime agent.
+- The output should not claim xueba has its own process, scheduler, durable memory, autonomous queue, independent permissions, observability, deployment, or lifecycle unless that runtime has been built and verified.
+- Agentization proposals should include identity, mission, task schemas, memory, tools, permissions, scheduler, evaluation, observability, and deployment.

@@ -9,26 +9,29 @@
 - 触发更准：学习、整理、Obsidian 沉淀、知识库升级等场景能稳定触发，不误触发普通问答。
 - 执行更稳：Obsidian 检测、vault 解析、保存路径、临时文件清理走可验证流程。
 - 上下文更轻：常用规则留在 `SKILL.md`，长模板、标签体系、平台授权细节放到 `references/` 按需加载。
-- 结果可测：用 eval 验证触发、保存路径、单文件质量、登录页处理和升级模式。
+- 结果可测：用 eval 验证触发、保存路径、单文件质量、登录页处理、升级模式、学习专家模式和智能体对象层边界。
 - 多用户通用：不写死本机路径，不依赖某个用户的目录习惯，默认使用 `88-学习/大学科/章节/主题.md`。
+- 边界清楚：明确学霸当前是 Codex Skill + Learning Expert Mode，不把它误称为已经具备独立运行时的 Agent。
 
 ## 2. 现状判断
 
 ### 已具备
 
-- 已形成 Study Mode 和 Upgrade Mode 两种模式。
+- 已形成 Study Mode、Upgrade Mode、Learning Expert Mode 和 Agent Design Mode 四种模式。
 - 已明确默认输出为单文件系统化笔记。
 - 已确定 Obsidian 写入规则：先检测软件和 vault，再写入真实 vault。
 - 已确定学习根目录：`88-学习/`。
 - 已改为简洁目录结构：`AI/智能体`、`AI/skills` 这类大学科分层。
 - 已加入登录/授权资料处理规则，避免总结登录页或伪造内容。
+- 已新增学习专家协议 `references/learning-expert.md`。
+- 已新增智能体对象层协议 `references/xueba-agent.md`，用于区分 Skill、Expert Mode、Agent Object 和 Runtime Agent。
 
 ### 主要短板
 
 - `SKILL.md` 仍偏长，部分规则可拆到 `references/`。
 - Obsidian 检测和 vault 解析目前是文字流程，缺少可复用脚本。
-- eval 只有提示和预期描述，缺少可执行断言。
-- 没有 trigger eval，无法系统验证 description 是否过宽或过窄。
+- eval 已覆盖核心场景，但还缺自动化执行与评分脚本。
+- trigger eval 已建立，但还需要周期性运行并根据误触发/漏触发继续优化 description。
 - 临时文件策略不够明确，容易把 `/private/tmp` 中间产物暴露给用户。
 - 对多客户端兼容性缺少明确边界，例如 Codex、OpenCode、Claude Code 的技能扫描路径差异。
 
@@ -47,6 +50,8 @@ xueba/
 │   ├── tag-taxonomy.md
 │   ├── obsidian-workflow.md
 │   ├── authenticated-sources.md
+│   ├── learning-expert.md
+│   ├── xueba-agent.md
 │   └── upgrade-mode.md
 ├── scripts/
 │   ├── resolve_obsidian_vault.py
@@ -70,7 +75,7 @@ xueba/
 
 ### 保留在 SKILL.md
 
-- Skill 目标和两种模式。
+- Skill 目标和四种模式。
 - 触发场景和不触发边界。
 - 核心原则。
 - 高层工作流。
@@ -84,6 +89,8 @@ xueba/
 - Obsidian 检测与保存细则 -> `references/obsidian-workflow.md`
 - 飞书/Notion/语雀/钉钉等授权资料处理 -> `references/authenticated-sources.md`
 - Upgrade Mode 的扫描、评分、报告模板 -> `references/upgrade-mode.md`
+- Learning Expert Mode 的专家协议 -> `references/learning-expert.md`
+- Agent Design Mode 的技能/专家/智能体边界和对象层 -> `references/xueba-agent.md`
 
 加载规则示例：
 
@@ -92,6 +99,8 @@ When writing a study note, read `references/note-template.md`.
 When resolving Obsidian, prefer `scripts/resolve_obsidian_vault.py`; if unavailable, read `references/obsidian-workflow.md`.
 When the source requires login, read `references/authenticated-sources.md`.
 When auditing a vault, read `references/upgrade-mode.md`.
+When generating a learning expert, read `references/learning-expert.md`.
+When agentizing xueba or explaining whether it is a skill or agent, read `references/xueba-agent.md`.
 ```
 
 ## 5. Obsidian 写入流程优化
@@ -304,6 +313,8 @@ AI/eval
 | 单文件输出 | 主目录仅为全景/概念/正文/练习/来源 |
 | 分类 | AI skills 进入 `88-学习/AI/skills/` |
 | 临时文件 | 最终结果不暴露 `/private/tmp` |
+| 学习专家 | 有身份锚定、能力预检、工作流、交付契约和质量门禁 |
+| 智能体边界 | 明确当前是 Skill + Expert Mode，不是独立 Runtime Agent |
 
 ### Assertion 设计
 
@@ -315,6 +326,7 @@ AI/eval
 - 不包含 `/private/tmp`、`/Users/<specific-user>`。
 - 登录页内容不被当作正文学习。
 - source 列表包含原始 URL。
+- 学霸身份问题必须区分 Skill、Expert Mode、Agent Object 和 Runtime Agent。
 
 ## 9. 分阶段落地计划
 
@@ -350,11 +362,13 @@ AI/eval
 - [x] 新增 `evals/trigger-evals.json`。
 - [x] 扩展 `evals/evals.json`。
 - [x] 新增 `evals/assertions.md`。
+- [x] 新增 Learning Expert Mode eval。
+- [x] 新增 Agent Design Mode eval。
 - [ ] 对至少 8 个核心场景跑一次人工评估。
 
 验收：
 
-- 覆盖公开网页、登录页、粘贴内容、Obsidian 未安装、多 vault、路径分类、单文件模板、知识库升级。
+- 覆盖公开网页、登录页、粘贴内容、Obsidian 未安装、多 vault、路径分类、单文件模板、知识库升级、学习专家模式和智能体对象层。
 - 每个 eval 有明确 pass/fail 标准。
 
 ### Phase 4：质量收敛
@@ -378,6 +392,7 @@ AI/eval
 | P0 | Obsidian vault 解析脚本 | 直接影响保存正确性 |
 | P1 | 单文件模板下沉 reference | 降低上下文成本 |
 | P1 | trigger eval | 防止误触发和漏触发 |
+| P1 | Agent Design Mode | 防止把 Skill 误称为已部署独立智能体 |
 | P1 | 登录资料 eval | 防止伪造内容 |
 | P2 | 分类脚本 | 提高多用户一致性 |
 | P2 | Upgrade Mode reference | 便于后续扩展知识库升级能力 |
@@ -392,6 +407,8 @@ AI/eval
 4. 新增 `references/tag-taxonomy.md`、`references/obsidian-workflow.md`、`references/authenticated-sources.md`、`references/upgrade-mode.md`，把长规则拆出 `SKILL.md`。
 5. 新增 `scripts/classify_learning_path.py` 和 `scripts/write_obsidian_note.py`，把分类和写入流程脚本化。
 6. 新增 `evals/trigger-evals.json`，补齐触发边界评估入口。
+7. 新增 `references/learning-expert.md`，把学霸产品化为单专家学习专家。
+8. 新增 `references/xueba-agent.md`，明确学霸当前是 Skill + Expert Mode，并给出 Agent 对象层和运行时升级路线。
 
 剩余重点：
 

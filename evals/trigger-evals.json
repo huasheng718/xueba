@@ -24,6 +24,22 @@
     {
       "prompt": "使用学霸技能学习 https://agentskills.io/home 并保存到 Obsidian",
       "reason": "显式技能名 + 网页学习 + Obsidian 保存"
+    },
+    {
+      "prompt": "基于学霸技能，帮我生成一个学习专家提示词，要有身份锚定、能力预检、工作流和质量门禁",
+      "reason": "显式要求把学霸生成学习专家"
+    },
+    {
+      "prompt": "把我的学习资料整理流程产品化成一个 xueba expert，不要模拟专家团，先给单专家模式",
+      "reason": "学习流程产品化 + xueba expert"
+    },
+    {
+      "prompt": "学霸现在到底是技能还是智能体？如果要做成 Xueba Agent，缺哪些运行时能力？",
+      "reason": "学霸身份边界 + Agent Design Mode"
+    },
+    {
+      "prompt": "帮我把学霸智能体化，设计 Agent 对象、长期记忆、任务队列、工具权限和质量门禁",
+      "reason": "明确要求把学霸从技能升级为 Agent 对象"
     }
   ],
   "should_not_trigger": [
@@ -46,6 +62,22 @@
     {
       "prompt": "帮我压缩这段 CSS",
       "reason": "代码处理任务，不是学习笔记或知识库升级"
+    },
+    {
+      "prompt": "帮我写一个法律顾问专家提示词，用来起草劳动仲裁材料",
+      "reason": "法律专家提示词，不是学习专家或 Obsidian 学习资产"
+    },
+    {
+      "prompt": "设计一个 UI/UX 设计专家，用于改版 B 端后台页面",
+      "reason": "设计专家，不是学习资料沉淀或学霸专家模式"
+    },
+    {
+      "prompt": "解释一下什么是 AutoGPT 这类智能体",
+      "reason": "普通 Agent 概念问答，不是学霸身份边界或学霸智能体化"
+    },
+    {
+      "prompt": "帮我写一个客服机器人 Agent 的系统提示词",
+      "reason": "客服机器人 Agent，不是学霸学习专家或 xueba agent"
     }
   ]
 }
