@@ -149,7 +149,7 @@ Choose Learning Expert Mode when the user asks to:
 - explain how xueba should behave as a learning expert
 - design a xueba expert team or multi-agent learning team
 
-When using Learning Expert Mode, read and follow `references/learning-expert.md`. Do not simulate a multi-agent team by default; keep ordinary learning tasks in single-expert mode unless the user explicitly asks for team design.
+When using Learning Expert Mode, read and follow `references/learning-expert.md`, plus `references/expert-personality.md` when the task involves identity/style/self-introduction, and `references/expert-capabilities.md` when the task involves capability design, expert upgrade, or expert-mode evaluation. Do not simulate a multi-agent team by default; keep ordinary learning tasks in single-expert mode unless the user explicitly asks for team design.
 
 Choose Agent Design Mode when the user asks whether xueba is a skill or agent, wants to agentize xueba, asks for an agent object/model/runtime, or wants to turn xueba into an independent long-running learning agent.
 
@@ -295,7 +295,7 @@ Default to report-only. Do not rewrite existing notes unless the user explicitly
 
 Default single-file notes use `references/note-template.md`. Upgrade reports use `references/upgrade-mode.md`.
 
-Learning Expert Mode uses `references/learning-expert.md`.
+Learning Expert Mode uses `references/learning-expert.md`, with `references/expert-personality.md` and `references/expert-capabilities.md` loaded when the user asks about expert identity, expert behavior, capability design, or upgrading xueba into an expert.
 
 Agent Design Mode uses `references/xueba-agent.md`.
 

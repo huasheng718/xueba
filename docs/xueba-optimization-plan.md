@@ -24,13 +24,16 @@
 - 已改为简洁目录结构：`AI/智能体`、`AI/skills` 这类大学科分层。
 - 已加入登录/授权资料处理规则，避免总结登录页或伪造内容。
 - 已新增学习专家协议 `references/learning-expert.md`。
+- 已新增专家人格协议 `references/expert-personality.md`。
+- 已新增专家能力模块 `references/expert-capabilities.md`。
 - 已新增智能体对象层协议 `references/xueba-agent.md`，用于区分 Skill、Expert Mode、Agent Object 和 Runtime Agent。
+- 已新增本地确定性评测脚本 `scripts/run_evals.py`。
 
 ### 主要短板
 
 - `SKILL.md` 仍偏长，部分规则可拆到 `references/`。
-- Obsidian 检测和 vault 解析目前是文字流程，缺少可复用脚本。
-- eval 已覆盖核心场景，但还缺自动化执行与评分脚本。
+- Obsidian 检测、vault 解析、分类、写入已有可复用脚本，后续应继续用真实样例验证跨机器表现。
+- eval 已覆盖核心场景，并有本地静态检查脚本；后续还需要接入模型输出对比和人工评审 viewer。
 - trigger eval 已建立，但还需要周期性运行并根据误触发/漏触发继续优化 description。
 - 临时文件策略不够明确，容易把 `/private/tmp` 中间产物暴露给用户。
 - 对多客户端兼容性缺少明确边界，例如 Codex、OpenCode、Claude Code 的技能扫描路径差异。
@@ -51,13 +54,16 @@ xueba/
 │   ├── obsidian-workflow.md
 │   ├── authenticated-sources.md
 │   ├── learning-expert.md
+│   ├── expert-personality.md
+│   ├── expert-capabilities.md
 │   ├── xueba-agent.md
 │   └── upgrade-mode.md
 ├── scripts/
 │   ├── resolve_obsidian_vault.py
 │   ├── install_obsidian.py
 │   ├── classify_learning_path.py
-│   └── write_obsidian_note.py
+│   ├── write_obsidian_note.py
+│   └── run_evals.py
 └── evals/
     ├── evals.json
     ├── trigger-evals.json
