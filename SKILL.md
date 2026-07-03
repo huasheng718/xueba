@@ -5,14 +5,15 @@ description: Use when the user wants to study, digest, restructure, or save lear
 
 # 学霸
 
-Current target version: xueba v1.2, the stable Learning Expert Mode. This is a Codex Skill plus a productized learning expert protocol, not an independent runtime agent.
+Current target version: xueba v2.0 local runtime harness. This is a Codex Skill plus Learning Expert Mode plus Agent Object Layer plus a deterministic local runtime harness. It is not yet a deployed autonomous daemon or cloud service.
 
-Use this skill in four modes:
+Use this skill in five modes:
 
 1. Study Mode: turn dense or fragmented learning material into one coherent Obsidian study note by default, with optional asset-package expansion only when requested.
 2. Upgrade Mode: inspect an existing Obsidian vault or selected notes and identify knowledge that can be improved, merged, split, linked, retagged, verified, or turned into learning assets.
 3. Learning Expert Mode: generate, refine, or explain xueba as a productized learning expert operating system with role anchoring, stable personality, capability modules, workflow, delivery contract, and quality gate.
 4. Agent Design Mode: explain or design xueba as an agent object, including the boundary between skill, expert mode, and independent runtime agent.
+5. Runtime Harness Mode: manage local deterministic task records, event logs, and memory-index scaffolds for xueba runtime experiments without claiming autonomous LLM execution.
 
 The goal is not to summarize a source. The goal is to create and maintain notes that support understanding, retrieval, review, transfer, and long-term knowledge growth. The first learning output should usually be one complete Markdown note that explains the topic end to end in the style of a "systematic topic note"; many files are useful only after the user wants long-term decomposition.
 
@@ -155,7 +156,9 @@ When using Learning Expert Mode, read and follow `references/learning-expert.md`
 
 Choose Agent Design Mode when the user asks whether xueba is a skill or agent, wants to agentize xueba, asks for an agent object/model/runtime, or wants to turn xueba into an independent long-running learning agent.
 
-When using Agent Design Mode, read and follow `references/xueba-agent.md`. Make the current boundary explicit: xueba currently exists as a Codex Skill with Learning Expert Mode, not as an independent runtime agent, unless a separate host runtime provides identity, memory, scheduler, permissions, observability, deployment, and lifecycle management.
+When using Agent Design Mode, read and follow `references/xueba-agent.md`, `references/agent-object.md`, and `references/runtime-agent.md` when runtime behavior is requested. Make the current boundary explicit: xueba now includes a local deterministic runtime harness for task state, event logs, and memory-index scaffolding, but it is not a deployed autonomous runtime agent unless a separate scheduler, model executor, permission service, observability, deployment, and lifecycle manager are built and verified.
+
+Choose Runtime Harness Mode when the user asks to create, list, update, or inspect xueba runtime tasks, queue state, event logs, or memory-index scaffolds. Use `scripts/xueba_runtime.py`; do not simulate background autonomy.
 
 ## Workflow
 
@@ -299,7 +302,7 @@ Default single-file notes use `references/note-template.md` and the completion c
 
 Learning Expert Mode uses `references/learning-expert.md`, with `references/expert-personality.md` and `references/expert-capabilities.md` loaded when the user asks about expert identity, expert behavior, capability design, or upgrading xueba into an expert.
 
-Agent Design Mode uses `references/xueba-agent.md`.
+Agent Design Mode uses `references/xueba-agent.md`, `references/agent-object.md`, and `references/runtime-agent.md` when runtime behavior is in scope.
 
 ## Final Response
 

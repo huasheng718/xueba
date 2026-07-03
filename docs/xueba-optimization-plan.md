@@ -17,7 +17,7 @@
 
 ### 已具备
 
-- 已形成 Study Mode、Upgrade Mode、Learning Expert Mode 和 Agent Design Mode 四种模式。
+- 已形成 Study Mode、Upgrade Mode、Learning Expert Mode、Agent Design Mode 和 Runtime Harness Mode 五种模式。
 - 已明确默认输出为单文件系统化笔记。
 - 已确定 Obsidian 写入规则：先检测软件和 vault，再写入真实 vault。
 - 已确定学习根目录：`88-学习/`。
@@ -28,6 +28,9 @@
 - 已新增专家能力模块 `references/expert-capabilities.md`。
 - 已新增独立质量门禁 `references/quality-gate.md`。
 - 已新增智能体对象层协议 `references/xueba-agent.md`，用于区分 Skill、Expert Mode、Agent Object 和 Runtime Agent。
+- 已新增 v1.3 Agent 对象层协议 `references/agent-object.md`。
+- 已新增 v2.0 runtime harness 协议 `references/runtime-agent.md`。
+- 已新增本地 runtime harness 脚本 `scripts/xueba_runtime.py`。
 - 已新增本地确定性评测脚本 `scripts/run_evals.py`。
 - 已新增兼容评测入口 `evals/cases.json`。
 - 触发边界已扩展到 20 条真实场景：10 条应触发、10 条不应触发。
@@ -59,6 +62,8 @@ xueba/
 │   ├── learning-expert.md
 │   ├── expert-personality.md
 │   ├── expert-capabilities.md
+│   ├── agent-object.md
+│   ├── runtime-agent.md
 │   ├── xueba-agent.md
 │   └── upgrade-mode.md
 ├── scripts/
@@ -66,6 +71,7 @@ xueba/
 │   ├── install_obsidian.py
 │   ├── classify_learning_path.py
 │   ├── write_obsidian_note.py
+│   ├── xueba_runtime.py
 │   └── run_evals.py
 └── evals/
     ├── cases.json
@@ -85,7 +91,7 @@ xueba/
 
 ### 保留在 SKILL.md
 
-- Skill 目标和四种模式。
+- Skill 目标和五种模式。
 - 触发场景和不触发边界。
 - 核心原则。
 - 高层工作流。
@@ -296,7 +302,11 @@ v1.2 新增 `references/quality-gate.md`，门禁覆盖：
 -> Skill/Agent 边界清晰
 ```
 
-它仍不是 v2.0 runtime agent。v2.0 需要独立长期记忆、任务队列、调度器、权限系统、观测、部署和生命周期管理。
+v1.3 在 v1.2 基础上补 Agent 对象层：身份、任务 schema、状态模型、记忆契约、工具权限和观测事件。
+
+v2.0 在 v1.3 基础上补本地 deterministic runtime harness：任务队列、状态迁移、事件日志、memory-index 脚手架。
+
+v2.0 仍不是已部署 autonomous daemon。真正长期运行还需要调度器、模型执行器、权限系统、生产观测、部署和生命周期管理。
 
 保持 5 个主目录：
 

@@ -1,8 +1,8 @@
 # xueba
 
-Current version target: **xueba v1.2 - 学习专家稳定版**.
+Current version target: **xueba v2.0 - 本地 runtime harness 版**.
 
-This package is a Codex Skill plus Learning Expert Mode. It is not yet an independent runtime agent.
+This package is a Codex Skill plus Learning Expert Mode, Agent Object Layer, and deterministic local runtime harness. It is not yet a deployed autonomous daemon or cloud service.
 
 “学霸”是一个面向深度学习、Obsidian TAG 流沉淀和已有知识升级的 Codex Skill 技能包。
 
@@ -15,7 +15,7 @@ This package is a Codex Skill plus Learning Expert Mode. It is not yet an indepe
 - 使用轻文件夹、重标签、强检索的 TAG 流知识管理方式。
 - 扫描已有 Obsidian vault 或文件夹，找出可升级、可合并、可拆分、可补来源、可优化标签和双链的笔记。
 
-## 四种模式
+## 五种模式
 
 ### 学习模式
 
@@ -38,7 +38,11 @@ v1.2 的专家化产物包括：
 
 ### 智能体对象层模式
 
-用于回答或设计“学霸到底是技能还是智能体”。当前学霸是 Skill 形态存在、Learning Expert Mode 运行；它还不是独立自运行 Agent。若要智能体化，需要补齐身份、任务状态、长期记忆、工具权限、调度器、运行时、评测、监控和部署生命周期。
+用于回答或设计“学霸到底是技能还是智能体”。v1.3 已补 Agent 对象层：身份、任务 schema、状态模型、记忆契约、工具权限、事件观测和质量门禁。它仍不等于已部署的独立 Agent。
+
+### 本地运行时模式
+
+v2.0 新增本地 deterministic runtime harness：`scripts/xueba_runtime.py`。它能创建任务记录、维护队列状态、追加事件日志、生成 Obsidian 学习资产的 memory-index 脚手架。它不调用模型、不后台常驻、不绕过权限，也不代表已经有云端部署或自动调度服务。
 
 ## 核心输出
 
@@ -163,11 +167,11 @@ tags:
 
 学习专家模式的产品化专家定义保存在 `references/learning-expert.md`。专家人格保存在 `references/expert-personality.md`，专家能力模块保存在 `references/expert-capabilities.md`。当用户要求“生成学习专家”“学霸专家模式”“学习专家提示词”或“把学习流程产品化成专家”时使用。
 
-智能体对象层定义保存在 `references/xueba-agent.md`。当用户问“学霸是技能还是智能体”、要求“智能体化学霸”、设计“Xueba Agent 对象/运行时/长期记忆/任务队列”时使用。
+智能体对象层定义保存在 `references/xueba-agent.md` 和 `references/agent-object.md`。本地 runtime harness 边界保存在 `references/runtime-agent.md`。当用户问“学霸是技能还是智能体”、要求“智能体化学霸”、设计“Xueba Agent 对象/运行时/长期记忆/任务队列”时使用。
 
 ## 脚本
 
-技能内置 5 个通用脚本，用于减少跨用户路径错误并提供本地质量检查：
+技能内置通用脚本，用于减少跨用户路径错误、提供本地质量检查，并支持本地 runtime harness：
 
 ```bash
 python3 scripts/resolve_obsidian_vault.py --json
@@ -176,6 +180,9 @@ python3 scripts/classify_learning_path.py --title "Agent Skills 开放技能标�
 python3 scripts/write_obsidian_note.py --vault "/path/to/vault" --relative-dir "88-学习/AI/skills" --filename "Agent Skills：开放技能标准与工程实践.md" --content-file note.md
 python3 scripts/run_evals.py
 python3 scripts/run_evals.py --note "/path/to/generated-note.md"
+python3 scripts/xueba_runtime.py init --runtime .xueba-runtime
+python3 scripts/xueba_runtime.py create --runtime .xueba-runtime --type study_note --title "Agent memory" --source-kind web_url --source-value https://example.com/agent-memory
+python3 scripts/xueba_runtime.py list --runtime .xueba-runtime
 ```
 
 - `resolve_obsidian_vault.py`：只读检测 Obsidian 安装和候选 vault。
@@ -183,6 +190,7 @@ python3 scripts/run_evals.py --note "/path/to/generated-note.md"
 - `classify_learning_path.py`：输出 `88-学习/[大学科]/[章节]/` 这类简洁相对目录和安全文件名。
 - `write_obsidian_note.py`：校验目标 vault、确保路径在 `88-学习/` 下、创建目录、防止默认覆盖同名笔记。
 - `run_evals.py`：本地静态检查技能结构、专家引用、质量门禁、eval expectations、20 条触发边界，并可检查生成的单文件笔记。
+- `xueba_runtime.py`：本地 deterministic runtime harness，管理任务队列、状态迁移、事件日志和 memory-index 脚手架。
 
 ## 测试提示
 

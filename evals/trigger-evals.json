@@ -40,6 +40,14 @@
     {
       "prompt": "请用学霸学习这几段 RAG 代码和技术分享，输出适合后续 AI 读取复用的 Markdown：要有 C001 概念 ID、关系、常见坑、待验证项和练习答案。",
       "reason": "技术资料学习 + AI-readable Markdown + 概念建模"
+    },
+    {
+      "prompt": "继续升级学霸到 v1.3 Agent 对象层：我要任务 schema、状态模型、记忆契约、工具权限、观测事件和质量门禁，但不要说它已经能后台自运行。",
+      "reason": "xueba Agent Object Layer 设计与边界"
+    },
+    {
+      "prompt": "用 xueba runtime 创建一个 study_note 队列任务，查看状态，再标记 running/completed，并写入 quality.checked 事件。",
+      "reason": "Runtime Harness Mode + 本地任务状态管理"
     }
   ],
   "should_not_trigger": [

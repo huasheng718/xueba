@@ -74,7 +74,25 @@ These assertions correspond to `references/quality-gate.md`. The Markdown file i
 ## Agent Design Assertions
 
 - Requests asking whether xueba is a skill or agent should use Agent Design Mode.
-- Agent Design Mode outputs should distinguish Skill, Expert Mode, Agent Object, Runtime Agent, and Multi-Agent Team.
-- The output should state that xueba currently exists as a Codex Skill with Learning Expert Mode, not as an independent self-running runtime agent.
-- The output should not claim xueba has its own process, scheduler, durable memory, autonomous queue, independent permissions, observability, deployment, or lifecycle unless that runtime has been built and verified.
+- Agent Design Mode outputs should distinguish Skill, Expert Mode, Agent Object, Local Runtime Harness, Runtime Agent, and Multi-Agent Team.
+- The output should state that xueba currently exists as a Codex Skill with Learning Expert Mode, Agent Object Layer, and Local Runtime Harness, but not as an independent deployed self-running runtime agent.
+- The output should not claim xueba has an always-on process, scheduler, autonomous model executor, independent permission service, production observability, deployment, or lifecycle unless that runtime has been built and verified.
 - Agentization proposals should include identity, mission, task schemas, memory, tools, permissions, scheduler, evaluation, observability, and deployment.
+
+## Agent Object Assertions
+
+- Requests for xueba object modeling should use Agent Design Mode and load `references/agent-object.md`.
+- The object definition should include identity, mission, operating modes, task schemas, state model, memory contract, tool and permission contract, observability events, and quality gate.
+- Task schemas should cover `study_note`, `vault_upgrade`, `review_plan`, and `expert_spec`.
+- State should distinguish `queued`, `running`, `blocked`, `completed`, `failed`, and `cancelled`.
+- Memory should distinguish working context, durable Obsidian learning memory, retrieval index, and runtime history.
+- Object-layer language must not imply background autonomy by itself.
+
+## Runtime Harness Assertions
+
+- Requests to create, list, update, or inspect xueba runtime tasks should use Runtime Harness Mode.
+- Runtime Harness Mode should use `scripts/xueba_runtime.py` for deterministic local task state.
+- Runtime command examples should include `init`, `create`, `list`, `update`, `event`, and memory-index scaffolding when relevant.
+- Runtime state should live under a chosen runtime directory such as `.xueba-runtime/`, with task status folders, `events.jsonl`, and `memory-index.json`.
+- The runtime harness may manage task records, status transitions, event logs, and memory-index scaffolds.
+- The runtime harness must not be described as calling an LLM, running forever in the background, bypassing access controls, or autonomously completing learning work.

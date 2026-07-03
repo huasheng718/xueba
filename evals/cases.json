@@ -168,16 +168,55 @@
     {
       "id": 11,
       "prompt": "学霸现在到底是智能体还是技能？如果要升级成真正的 Xueba Agent，需要补哪些对象层和运行时能力？",
-      "expected_output": "应进入 Agent Design Mode，读取 references/xueba-agent.md，并直接说明当前学霸是 Skill 形态存在、Learning Expert Mode 运行，不是独立自运行 Agent。回答应区分 Skill、Expert Mode、Agent Object、Runtime Agent、Multi-Agent Team；应说明当前已有 SKILL.md、references/learning-expert.md、evals 和脚本，但还缺独立进程/服务、长期记忆索引、任务队列、调度器、独立工具权限、运行状态、监控、部署和生命周期；如果给升级路线，应包含身份、任务 schema、记忆、工具权限、调度、评测、观测和部署。",
+      "expected_output": "应进入 Agent Design Mode，读取 references/xueba-agent.md、references/agent-object.md 和 references/runtime-agent.md，并直接说明当前学霸是 Skill 形态存在、Learning Expert Mode 运行，已有 Agent Object Layer 和 Local Runtime Harness，但还不是已部署的独立自运行 Agent/daemon/cloud service。回答应区分 Skill、Expert Mode、Agent Object、Local Runtime Harness、Runtime Agent、Multi-Agent Team；应说明当前已有 SKILL.md、references/learning-expert.md、references/agent-object.md、references/runtime-agent.md、scripts/xueba_runtime.py、evals 和脚本，但还缺长期运行调度器、模型执行器、独立权限服务、生产观测、部署和生命周期；如果给升级路线，应包含身份、任务 schema、记忆、工具权限、调度、评测、观测和部署。",
       "files": [],
       "expectations": [
         "进入 Agent Design Mode",
         "明确当前学霸是 Skill 形态存在",
         "明确当前学霸有 Learning Expert Mode",
-        "明确当前学霸不是独立自运行 Agent",
-        "区分 Skill、Expert Mode、Agent Object、Runtime Agent",
-        "说明缺少长期记忆、任务队列、调度器、独立权限、监控和部署生命周期",
+        "明确当前学霸已有 Agent Object Layer",
+        "明确当前学霸已有 Local Runtime Harness",
+        "明确当前学霸不是已部署的独立自运行 Agent",
+        "区分 Skill、Expert Mode、Agent Object、Local Runtime Harness、Runtime Agent",
+        "说明 scripts/xueba_runtime.py 只管理本地任务记录、状态、事件和 memory-index 脚手架",
+        "说明缺少长期运行调度器、模型执行器、独立权限服务、生产观测和部署生命周期",
         "给出 Agent 对象层或运行时升级路线"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "学霸升级到 Agent 对象层，给我任务 schema、状态、记忆、权限、观测事件和质量门禁。不要把对象层说成已经能自己后台跑。",
+      "expected_output": "应进入 Agent Design Mode 并读取 references/agent-object.md。输出应定义 xueba v1.3 Agent Object Layer，包含 agent identity、mission、operating modes、study_note/vault_upgrade/review_plan/expert_spec 任务 schema、状态模型、Memory Contract、Tool And Permission Contract、Observability Events 和 v1.3 Quality Gate；同时明确对象层只是宿主 runtime 可实例化的契约，不等于已经部署的后台自治 Agent。",
+      "files": [],
+      "expectations": [
+        "进入 Agent Design Mode",
+        "明确版本是 xueba v1.3 Agent Object Layer",
+        "包含 agent identity 和 mission",
+        "包含 study_note、vault_upgrade、review_plan、expert_spec 任务 schema",
+        "包含 State Model",
+        "包含 Memory Contract",
+        "包含 Tool And Permission Contract",
+        "包含 Observability Events",
+        "包含 v1.3 Quality Gate",
+        "明确对象层不等于后台自治 Agent"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "用 xueba runtime 创建一个 study_note 任务，查看队列，标记 running，再标记 completed，并记录 quality.checked 事件。说明这个 runtime 能做什么、不能做什么。",
+      "expected_output": "应进入 Runtime Harness Mode，使用 scripts/xueba_runtime.py 或给出等价命令序列：init、create、list、update running、update completed、event quality.checked。输出应说明运行时目录包含 tasks/queued、tasks/running、tasks/completed、events.jsonl 和 memory-index.json；应说明它能管理本地任务记录、状态迁移、事件日志和 memory-index 脚手架，但不能自己调用 LLM、后台常驻、绕过权限或声称自动完成学习工作。",
+      "files": [],
+      "expectations": [
+        "进入 Runtime Harness Mode",
+        "使用 scripts/xueba_runtime.py",
+        "包含 init 命令",
+        "包含 create --type study_note 命令",
+        "包含 list 命令",
+        "包含 update --status running 命令",
+        "包含 update --status completed 命令",
+        "包含 event --type quality.checked 命令",
+        "说明 runtime 目录包含任务状态目录、events.jsonl 和 memory-index.json",
+        "明确 runtime 不调用 LLM、不后台常驻、不绕过权限、不代表自动完成学习"
       ]
     }
   ]

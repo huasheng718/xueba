@@ -2,18 +2,22 @@
 
 Use this reference when the user asks whether xueba is a skill or an agent, wants to agentize xueba, asks for an agent object/model/runtime, or wants xueba to become an independent long-running learning agent.
 
+For detailed v1.3 object contracts, read `references/agent-object.md`. For v2.0 local runtime harness behavior, read `references/runtime-agent.md`.
+
 ## Current Boundary
 
 State the boundary clearly:
 
 ```text
-当前学霸 = Skill 形态存在 + Learning Expert Mode 运行
-当前学霸 != 独立自运行 Agent
+当前学霸 = Skill 形态存在 + Learning Expert Mode + Agent Object Layer + Local Runtime Harness
+当前学霸 != 已部署的独立自运行 Agent/daemon/cloud service
 ```
 
 In the current Codex runtime, xueba is loaded through `SKILL.md`. The host agent reads the skill and performs the work. Xueba can behave as a productized learning expert because `references/learning-expert.md` defines role anchoring, capability precheck, workflow, delivery contract, quality gate, and handoff.
 
-Do not claim xueba has its own process, scheduler, daemon, persistent memory, autonomous task queue, independent tool permissions, observability, deployment, or lifecycle unless the current environment actually provides those capabilities.
+Do not claim xueba has an always-on process, scheduler, daemon, autonomous model executor, independent tool permission service, production observability, deployment, or lifecycle unless the current environment actually provides those capabilities.
+
+As of v2.0 in this repository, xueba has a local deterministic runtime harness in `scripts/xueba_runtime.py` for task records, status transitions, event logs, and memory-index scaffolds. This is runtime infrastructure, not autonomous learning execution.
 
 ## Identity Levels
 
@@ -23,8 +27,9 @@ Use this table when explaining xueba's status:
 |---|---|---|
 | Skill | Reusable instructions, references, scripts, and evals loaded by a host agent. | Yes. |
 | Expert Mode | A productized role contract that makes the host agent behave as a learning expert. | Yes. |
-| Agent Object | A structured definition of identity, goals, memory, tools, workflows, state, and quality gates. | Designable in this reference. |
-| Runtime Agent | An independently runnable process or service with scheduling, state, permissions, monitoring, and lifecycle. | Not present by default. |
+| Agent Object | A structured definition of identity, goals, memory, tools, workflows, state, and quality gates. | Yes, v1.3 object layer exists in `references/agent-object.md`. |
+| Local Runtime Harness | Deterministic local task records, queue folders, event logs, and memory-index scaffold. | Yes, v2.0 local harness exists in `scripts/xueba_runtime.py`. |
+| Runtime Agent | An independently runnable process or service with scheduling, model execution, permissions, monitoring, and lifecycle. | Not deployed by default. |
 | Multi-Agent Team | Multiple coordinated agents with role-specific responsibilities and handoff protocols. | Only design when explicitly requested. |
 
 ## Agent Object Contract
@@ -112,6 +117,8 @@ To become a true independent agent, xueba needs a runtime layer outside the skil
 | Observability | Logs, changed files, failures, quality-gate results, and user-visible handoff. |
 | Deployment | Install/update path, versioning, rollback, and runtime health checks. |
 
+The current local runtime harness covers part of State, Evaluation, and Observability. It does not cover autonomous scheduling, model execution, independent permission service, or deployment lifecycle.
+
 ## Agentization Roadmap
 
 Use this roadmap when the user wants the next implementation steps:
@@ -123,18 +130,21 @@ Use this roadmap when the user wants the next implementation steps:
 5. Add a queue for long tasks such as vault audits and review-plan refreshes.
 6. Add permission gates for authenticated sources and existing-note edits.
 7. Add evals that verify the agent does not confuse skill, expert mode, and runtime agent.
-8. Only then describe xueba as an independent agent in product language.
+8. Use `scripts/xueba_runtime.py` for local runtime experiments.
+9. Only then describe xueba as an independent agent in product language after scheduler, model execution, permission service, observability, and deployment are verified.
 
 ## Response Pattern
 
 When the user asks "学霸是智能体还是技能", answer directly:
 
 ```markdown
-结论：学霸现在是“技能形态存在，专家模式运行”，还不是独立智能体。
+结论：学霸现在是“技能形态存在，专家模式运行，并带有 Agent 对象层和本地 runtime harness”，但还不是已部署的独立自运行智能体。
 
 - 作为 Skill：它通过 SKILL.md 被宿主 Agent 触发和执行。
 - 作为专家：它有 Learning Expert Mode，能按学习专家协议工作。
-- 作为 Agent：目前只有对象层设计；还缺独立运行时、长期记忆、任务队列、调度器、权限边界、监控和部署生命周期。
+- 作为 Agent 对象：它已有对象层定义，可描述身份、任务、状态、记忆、权限和质量门禁。
+- 作为本地 runtime：它已有本地任务记录、状态迁移、事件日志和记忆索引脚手架。
+- 作为独立 runtime agent：还缺长期运行调度器、模型执行器、独立权限服务、生产监控和部署生命周期。
 
 如果要升级成真正智能体，下一步是补 Agent 对象层与运行时：身份、任务、记忆、工具权限、调度、评测、观测和部署。
 ```

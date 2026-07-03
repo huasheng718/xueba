@@ -10,7 +10,9 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -27,11 +29,14 @@ REQUIRED_FILES = [
     "references/expert-capabilities.md",
     "references/quality-gate.md",
     "references/xueba-agent.md",
+    "references/agent-object.md",
+    "references/runtime-agent.md",
     "references/upgrade-mode.md",
     "scripts/resolve_obsidian_vault.py",
     "scripts/install_obsidian.py",
     "scripts/classify_learning_path.py",
     "scripts/write_obsidian_note.py",
+    "scripts/xueba_runtime.py",
     "scripts/run_evals.py",
     "evals/cases.json",
     "evals/evals.json",
@@ -85,13 +90,18 @@ def validate_skill_metadata(root: Path, results: list[dict[str, Any]]) -> None:
     add_result(results, "frontmatter is under 1024 characters", len(frontmatter) <= 1024, f"{len(frontmatter)} characters")
 
     for phrase in [
-        "xueba v1.2",
+        "xueba v2.0",
         "Learning Expert Mode",
         "Agent Design Mode",
+        "Runtime Harness Mode",
         "references/expert-personality.md",
         "references/expert-capabilities.md",
         "references/learning-expert.md",
         "references/quality-gate.md",
+        "references/agent-object.md",
+        "references/runtime-agent.md",
+        "scripts/xueba_runtime.py",
+        "local deterministic runtime harness",
     ]:
         add_result(results, f"SKILL.md references {phrase}", phrase in text)
 
@@ -141,13 +151,185 @@ def validate_quality_gate(root: Path, results: list[dict[str, Any]]) -> None:
         add_result(results, f"note template includes {phrase}", phrase in template)
 
 
+def validate_agent_runtime_refs(root: Path, results: list[dict[str, Any]]) -> None:
+    xueba_agent = read_text(root / "references/xueba-agent.md")
+    for phrase in [
+        "Local Runtime Harness",
+        "references/agent-object.md",
+        "references/runtime-agent.md",
+        "scripts/xueba_runtime.py",
+        "not autonomous learning execution",
+        "Not deployed by default",
+    ]:
+        add_result(results, f"xueba-agent includes {phrase}", phrase in xueba_agent)
+
+    agent_object = read_text(root / "references/agent-object.md")
+    for phrase in [
+        "Task Schemas",
+        "study_note",
+        "vault_upgrade",
+        "review_plan",
+        "expert_spec",
+        "State Model",
+        "Memory Contract",
+        "Tool And Permission Contract",
+        "Observability Events",
+        "v1.3 Quality Gate",
+    ]:
+        add_result(results, f"agent object includes {phrase}", phrase in agent_object)
+
+    runtime_agent = read_text(root / "references/runtime-agent.md")
+    for phrase in [
+        "Local Runtime Harness",
+        "Task Lifecycle",
+        "Runtime Commands",
+        "v2.0 Quality Gate",
+        ".xueba-runtime",
+        "does not mean there is already a deployed daemon",
+        "scripts/xueba_runtime.py",
+    ]:
+        add_result(results, f"runtime agent includes {phrase}", phrase in runtime_agent)
+
+    runtime_script = read_text(root / "scripts/xueba_runtime.py")
+    for phrase in [
+        "TASK_TYPES",
+        "STATUSES",
+        "def create_task",
+        "def list_tasks",
+        "def update_task",
+        "def log_event",
+        "def memory_index",
+        "does not call an LLM",
+    ]:
+        add_result(results, f"runtime script includes {phrase}", phrase in runtime_script)
+
+
+def run_runtime_command(script: Path, runtime: Path, *args: str) -> tuple[bool, dict[str, Any], str]:
+    command = [sys.executable, str(script), *args, "--runtime", str(runtime)]
+    completed = subprocess.run(command, check=False, text=True, capture_output=True)
+    try:
+        payload = json.loads(completed.stdout)
+    except json.JSONDecodeError:
+        payload = {}
+    ok = completed.returncode == 0 and payload.get("ok") is True
+    evidence = completed.stdout.strip() or completed.stderr.strip()
+    return ok, payload, evidence[:500]
+
+
+def validate_runtime_smoke(root: Path, results: list[dict[str, Any]]) -> None:
+    script = root / "scripts/xueba_runtime.py"
+    with tempfile.TemporaryDirectory(prefix="xueba-runtime-eval-") as temp_dir:
+        temp = Path(temp_dir)
+        runtime = temp / ".xueba-runtime"
+        vault = temp / "vault"
+        note_dir = vault / "88-学习" / "AI" / "skills"
+        note_dir.mkdir(parents=True)
+        (vault / ".obsidian").mkdir()
+        (note_dir / "runtime-test.md").write_text(
+            """---
+title: Runtime Test
+tags:
+  - status/seed
+  - type/system-note
+---
+
+# Runtime Test
+
+## AI 读取区
+summary: runtime smoke test
+concepts:
+  - C001
+relations: []
+keywords: [runtime]
+qa_pairs: []
+""",
+            encoding="utf-8",
+        )
+
+        ok, payload, evidence = run_runtime_command(script, runtime, "init")
+        add_result(results, "runtime init succeeds", ok, evidence)
+        add_result(results, "runtime init creates queued directory", (runtime / "tasks" / "queued").is_dir(), str(runtime))
+
+        task_id = "xueba-eval-runtime-task"
+        ok, payload, evidence = run_runtime_command(
+            script,
+            runtime,
+            "create",
+            "--task-id",
+            task_id,
+            "--type",
+            "study_note",
+            "--title",
+            "Runtime smoke",
+            "--source-kind",
+            "web_url",
+            "--source-value",
+            "https://example.com/runtime",
+        )
+        add_result(results, "runtime create succeeds", ok, evidence)
+        add_result(results, "runtime create writes queued task", (runtime / "tasks" / "queued" / f"{task_id}.json").is_file(), task_id)
+
+        ok, payload, evidence = run_runtime_command(script, runtime, "list")
+        listed_ids = [item.get("task_id") for item in payload.get("tasks", [])] if isinstance(payload.get("tasks"), list) else []
+        add_result(results, "runtime list includes created task", ok and task_id in listed_ids, evidence)
+
+        ok, payload, evidence = run_runtime_command(script, runtime, "update", "--task-id", task_id, "--status", "running")
+        add_result(results, "runtime update to running succeeds", ok and payload.get("task", {}).get("status") == "running", evidence)
+        add_result(results, "runtime update moves task file", (runtime / "tasks" / "running" / f"{task_id}.json").is_file(), task_id)
+
+        ok, payload, evidence = run_runtime_command(
+            script,
+            runtime,
+            "update",
+            "--task-id",
+            task_id,
+            "--status",
+            "completed",
+            "--quality-gate",
+            "passed",
+            "--final-path",
+            "88-学习/AI/skills/runtime-test.md",
+        )
+        task = payload.get("task", {})
+        add_result(results, "runtime update to completed records quality gate", ok and task.get("quality", {}).get("gate") == "passed", evidence)
+
+        ok, payload, evidence = run_runtime_command(
+            script,
+            runtime,
+            "event",
+            "--task-id",
+            task_id,
+            "--type",
+            "quality.checked",
+            "--message",
+            "quality gate passed",
+            "--data",
+            '{"gate":"passed"}',
+        )
+        add_result(results, "runtime event append succeeds", ok, evidence)
+        events_text = (runtime / "events.jsonl").read_text(encoding="utf-8")
+        add_result(results, "runtime events include quality.checked", "quality.checked" in events_text, events_text[-500:])
+
+        command = [sys.executable, str(script), "memory-index", "--runtime", str(runtime), "--vault", str(vault)]
+        completed = subprocess.run(command, check=False, text=True, capture_output=True)
+        try:
+            payload = json.loads(completed.stdout)
+        except json.JSONDecodeError:
+            payload = {}
+        ok = completed.returncode == 0 and payload.get("ok") is True
+        add_result(results, "runtime memory-index succeeds", ok, completed.stdout.strip()[:500] or completed.stderr.strip()[:500])
+        index = json.loads((runtime / "memory-index.json").read_text(encoding="utf-8"))
+        add_result(results, "runtime memory-index finds learning note", index.get("notes") and index["notes"][0].get("relative_path") == "88-学习/AI/skills/runtime-test.md")
+        add_result(results, "runtime memory-index extracts concept ID", "C001" in index["notes"][0].get("concept_ids", []) if index.get("notes") else False)
+
+
 def validate_evals(root: Path, results: list[dict[str, Any]]) -> None:
     data = load_json(root / "evals/evals.json")
     cases = load_json(root / "evals/cases.json")
     add_result(results, "evals/cases.json mirrors evals/evals.json", cases == data)
     add_result(results, "evals skill_name is xueba", data.get("skill_name") == "xueba")
     evals = data.get("evals")
-    add_result(results, "evals contains at least 11 cases", isinstance(evals, list) and len(evals) >= 11, f"{len(evals) if isinstance(evals, list) else 'not-list'}")
+    add_result(results, "evals contains at least 13 cases", isinstance(evals, list) and len(evals) >= 13, f"{len(evals) if isinstance(evals, list) else 'not-list'}")
     if not isinstance(evals, list):
         return
 
@@ -241,8 +423,10 @@ def main() -> int:
         validate_skill_metadata(root, results)
         validate_learning_expert_refs(root, results)
         validate_quality_gate(root, results)
+        validate_agent_runtime_refs(root, results)
         validate_evals(root, results)
         validate_trigger_evals(root, results)
+        validate_runtime_smoke(root, results)
         if args.note:
             validate_note(Path(args.note).expanduser().resolve(), results)
     except (OSError, json.JSONDecodeError) as exc:
