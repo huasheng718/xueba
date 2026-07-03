@@ -1,5 +1,9 @@
 # xueba
 
+Current version target: **xueba v1.2 - 学习专家稳定版**.
+
+This package is a Codex Skill plus Learning Expert Mode. It is not yet an independent runtime agent.
+
 “学霸”是一个面向深度学习、Obsidian TAG 流沉淀和已有知识升级的 Codex Skill 技能包。
 
 ## 适用场景
@@ -24,6 +28,13 @@
 ### 学习专家模式
 
 用于把学霸本身生成或解释为一个产品化学习专家。它包含专家人格、核心使命、能力预检、专家工作流、交付契约、质量门禁和最终交接规则。普通学习任务仍走单专家学习模式，不默认模拟多 Agent 专家团。
+
+v1.2 的专家化产物包括：
+
+- `references/expert-personality.md`：专家人格、口吻、边界和反模式。
+- `references/expert-capabilities.md`：资料解析、概念建模、学习路径、练习设计、Obsidian 整理、质量审查 6 个能力模块。
+- `references/learning-expert.md`：学习专家执行协议。
+- `references/quality-gate.md`：可检查的质量门禁。
 
 ### 智能体对象层模式
 
@@ -148,6 +159,8 @@ tags:
 
 默认五段式模板已移到 `references/note-template.md`，作为单文件学习笔记的唯一模板来源。主标题固定保持简洁：`全景`、`概念`、`正文`、`练习`、`来源`。
 
+质量门禁保存在 `references/quality-gate.md`。学习笔记完成前必须检查来源边界、五段结构、概念 ID、练习答案、AI 读取区、真实 vault 保存路径和临时路径泄漏风险。
+
 学习专家模式的产品化专家定义保存在 `references/learning-expert.md`。专家人格保存在 `references/expert-personality.md`，专家能力模块保存在 `references/expert-capabilities.md`。当用户要求“生成学习专家”“学霸专家模式”“学习专家提示词”或“把学习流程产品化成专家”时使用。
 
 智能体对象层定义保存在 `references/xueba-agent.md`。当用户问“学霸是技能还是智能体”、要求“智能体化学霸”、设计“Xueba Agent 对象/运行时/长期记忆/任务队列”时使用。
@@ -162,14 +175,15 @@ python3 scripts/install_obsidian.py --json
 python3 scripts/classify_learning_path.py --title "Agent Skills 开放技能标准与工程实践" --domain-tag domain/ai/skills
 python3 scripts/write_obsidian_note.py --vault "/path/to/vault" --relative-dir "88-学习/AI/skills" --filename "Agent Skills：开放技能标准与工程实践.md" --content-file note.md
 python3 scripts/run_evals.py
+python3 scripts/run_evals.py --note "/path/to/generated-note.md"
 ```
 
 - `resolve_obsidian_vault.py`：只读检测 Obsidian 安装和候选 vault。
 - `install_obsidian.py`：未检测到 Obsidian 且获得批准后，从 `obsidianmd/obsidian-releases` 获取最新安装包并安装。
 - `classify_learning_path.py`：输出 `88-学习/[大学科]/[章节]/` 这类简洁相对目录和安全文件名。
 - `write_obsidian_note.py`：校验目标 vault、确保路径在 `88-学习/` 下、创建目录、防止默认覆盖同名笔记。
-- `run_evals.py`：本地静态检查技能结构、专家引用、eval expectations，并可检查生成的单文件笔记。
+- `run_evals.py`：本地静态检查技能结构、专家引用、质量门禁、eval expectations、20 条触发边界，并可检查生成的单文件笔记。
 
 ## 测试提示
 
-测试用例保存在 `evals/evals.json`，触发边界保存在 `evals/trigger-evals.json`，断言说明保存在 `evals/assertions.md`。先运行 `python3 scripts/run_evals.py` 做确定性结构检查；需要模型输出对比时，再按 `skill-creator` 流程运行评估。
+测试用例保存在 `evals/evals.json`，兼容入口保存在 `evals/cases.json`，触发边界保存在 `evals/trigger-evals.json`，断言说明保存在 `evals/assertions.md`。先运行 `python3 scripts/run_evals.py` 做确定性结构检查；需要模型输出对比时，再按 `skill-creator` 流程运行评估。

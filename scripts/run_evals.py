@@ -25,6 +25,7 @@ REQUIRED_FILES = [
     "references/learning-expert.md",
     "references/expert-personality.md",
     "references/expert-capabilities.md",
+    "references/quality-gate.md",
     "references/xueba-agent.md",
     "references/upgrade-mode.md",
     "scripts/resolve_obsidian_vault.py",
@@ -32,6 +33,7 @@ REQUIRED_FILES = [
     "scripts/classify_learning_path.py",
     "scripts/write_obsidian_note.py",
     "scripts/run_evals.py",
+    "evals/cases.json",
     "evals/evals.json",
     "evals/trigger-evals.json",
     "evals/assertions.md",
@@ -83,11 +85,13 @@ def validate_skill_metadata(root: Path, results: list[dict[str, Any]]) -> None:
     add_result(results, "frontmatter is under 1024 characters", len(frontmatter) <= 1024, f"{len(frontmatter)} characters")
 
     for phrase in [
+        "xueba v1.2",
         "Learning Expert Mode",
         "Agent Design Mode",
         "references/expert-personality.md",
         "references/expert-capabilities.md",
         "references/learning-expert.md",
+        "references/quality-gate.md",
     ]:
         add_result(results, f"SKILL.md references {phrase}", phrase in text)
 
@@ -95,12 +99,15 @@ def validate_skill_metadata(root: Path, results: list[dict[str, Any]]) -> None:
 def validate_learning_expert_refs(root: Path, results: list[dict[str, Any]]) -> None:
     text = read_text(root / "references/learning-expert.md")
     for phrase in [
+        "xueba v1.2",
         "references/expert-personality.md",
         "references/expert-capabilities.md",
+        "references/quality-gate.md",
         "Role Override",
         "Capability Precheck",
         "Expert Workflow",
         "Quality Gate",
+        "single-expert",
     ]:
         add_result(results, f"learning expert includes {phrase}", phrase in text)
 
@@ -110,13 +117,37 @@ def validate_learning_expert_refs(root: Path, results: list[dict[str, Any]]) -> 
         add_result(results, f"personality covers {phrase}", phrase in personality)
     for phrase in ["资料解析专家", "概念建模专家", "学习路径专家", "练习设计专家", "Obsidian 整理专家", "质量审查专家"]:
         add_result(results, f"capabilities cover {phrase}", phrase in capabilities)
+    add_result(results, "capabilities define v1.2 completion criteria", "v1.2 Completion Criteria" in capabilities)
+
+
+def validate_quality_gate(root: Path, results: list[dict[str, Any]]) -> None:
+    text = read_text(root / "references/quality-gate.md")
+    for phrase in [
+        "Universal Gate",
+        "Study Note Gate",
+        "Obsidian Save Gate",
+        "Upgrade Mode Gate",
+        "Learning Expert Gate",
+        "Agent Design Gate",
+        "Local Eval Gate",
+        "88-学习/",
+        "/tmp",
+        "https://github.com/obsidianmd/obsidian-releases",
+    ]:
+        add_result(results, f"quality gate includes {phrase}", phrase in text)
+
+    template = read_text(root / "references/note-template.md")
+    for phrase in ["references/quality-gate.md", "这门知识解决什么问题", "保存结果位于真实 Obsidian vault 的 `88-学习/`"]:
+        add_result(results, f"note template includes {phrase}", phrase in template)
 
 
 def validate_evals(root: Path, results: list[dict[str, Any]]) -> None:
     data = load_json(root / "evals/evals.json")
+    cases = load_json(root / "evals/cases.json")
+    add_result(results, "evals/cases.json mirrors evals/evals.json", cases == data)
     add_result(results, "evals skill_name is xueba", data.get("skill_name") == "xueba")
     evals = data.get("evals")
-    add_result(results, "evals contains a non-empty list", isinstance(evals, list) and len(evals) > 0, f"{len(evals) if isinstance(evals, list) else 'not-list'}")
+    add_result(results, "evals contains at least 11 cases", isinstance(evals, list) and len(evals) >= 11, f"{len(evals) if isinstance(evals, list) else 'not-list'}")
     if not isinstance(evals, list):
         return
 
@@ -141,8 +172,10 @@ def validate_trigger_evals(root: Path, results: list[dict[str, Any]]) -> None:
     add_result(results, "trigger evals skill_name is xueba", data.get("skill_name") == "xueba")
     should_trigger = data.get("should_trigger")
     should_not_trigger = data.get("should_not_trigger")
-    add_result(results, "trigger evals has should_trigger list", isinstance(should_trigger, list) and len(should_trigger) >= 8)
-    add_result(results, "trigger evals has should_not_trigger list", isinstance(should_not_trigger, list) and len(should_not_trigger) >= 8)
+    add_result(results, "trigger evals has 10 should_trigger prompts", isinstance(should_trigger, list) and len(should_trigger) >= 10)
+    add_result(results, "trigger evals has 10 should_not_trigger prompts", isinstance(should_not_trigger, list) and len(should_not_trigger) >= 10)
+    total = (len(should_trigger) if isinstance(should_trigger, list) else 0) + (len(should_not_trigger) if isinstance(should_not_trigger, list) else 0)
+    add_result(results, "trigger evals covers at least 20 prompts", total >= 20, f"{total} prompts")
 
     for group_name, group in [("should_trigger", should_trigger), ("should_not_trigger", should_not_trigger)]:
         if not isinstance(group, list):
@@ -173,12 +206,14 @@ def validate_note(note_path: Path, results: list[dict[str, Any]]) -> None:
         add_result(results, f"note contains {phrase}", phrase in text)
 
     add_result(results, "note uses stable concept ID C001", "C001" in text)
+    add_result(results, "note states what problem the knowledge solves", "解决什么问题" in text or "核心问题" in text)
     add_result(results, "note separates source and inference labels", all(label in text for label in ["原文依据", "推论", "待补充", "待验证"]))
     add_result(results, "note includes AI 读取区", "AI 读取区" in text)
     for key in REQUIRED_AI_YAML_KEYS:
         add_result(results, f"AI 读取区 has {key}", key in text)
     add_result(results, "note includes quality checklist", "质量检查" in text)
     add_result(results, "note does not expose temporary paths", "/private/tmp" not in text and "/tmp" not in text)
+    add_result(results, "note save target is under 88-学习 when path is present", "88-学习/" in str(note_path) or "88-学习/" in text)
 
 
 def summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
@@ -205,6 +240,7 @@ def main() -> int:
         validate_required_files(root, results)
         validate_skill_metadata(root, results)
         validate_learning_expert_refs(root, results)
+        validate_quality_gate(root, results)
         validate_evals(root, results)
         validate_trigger_evals(root, results)
         if args.note:

@@ -4,6 +4,8 @@ Use this reference when Learning Expert Mode needs a concrete capability map, ca
 
 These modules are internal capabilities of one xueba expert. Do not present them as a fake multi-agent team unless the user explicitly asks for team design.
 
+The six modules are the expert operating system for xueba v1.2. They should be applied as capabilities of one stable expert, not as separate autonomous agents.
+
 ## Capability Precheck
 
 Before producing the artifact, map the request to the smallest set of needed modules:
@@ -138,5 +140,19 @@ xueba counts as a stable learning expert when it has all of the following:
 - capability module map in `references/expert-capabilities.md`
 - Learning Expert Mode that loads both references
 - single-note template with source traceability, concept boundaries, exercises, AI-readable YAML, and quality checks
+- standalone quality gate in `references/quality-gate.md`
 - deterministic scripts for vault resolution, path classification, note writing, and local eval checks
 - eval cases with expectations for study, upgrade, authenticated source, expert mode, and agent boundary tasks
+
+## v1.2 Completion Criteria
+
+The v1.2 learning expert stable release is complete when:
+
+| Layer | Required evidence |
+|---|---|
+| Personality | `expert-personality.md` defines identity, temperament, boundaries, and anti-patterns. |
+| Capability | `expert-capabilities.md` defines the six expert modules and precheck table. |
+| Delivery | `note-template.md` enforces the five-section system note. |
+| Quality | `quality-gate.md` defines checkable completion criteria. |
+| Eval | `run_evals.py` validates files, references, eval expectations, trigger coverage, and optional note quality. |
+| Boundary | `xueba-agent.md` keeps Skill, Expert Mode, Agent Object, and Runtime Agent separate. |

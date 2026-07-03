@@ -26,8 +26,11 @@
 - 已新增学习专家协议 `references/learning-expert.md`。
 - 已新增专家人格协议 `references/expert-personality.md`。
 - 已新增专家能力模块 `references/expert-capabilities.md`。
+- 已新增独立质量门禁 `references/quality-gate.md`。
 - 已新增智能体对象层协议 `references/xueba-agent.md`，用于区分 Skill、Expert Mode、Agent Object 和 Runtime Agent。
 - 已新增本地确定性评测脚本 `scripts/run_evals.py`。
+- 已新增兼容评测入口 `evals/cases.json`。
+- 触发边界已扩展到 20 条真实场景：10 条应触发、10 条不应触发。
 
 ### 主要短板
 
@@ -65,6 +68,7 @@ xueba/
 │   ├── write_obsidian_note.py
 │   └── run_evals.py
 └── evals/
+    ├── cases.json
     ├── evals.json
     ├── trigger-evals.json
     └── assertions.md
@@ -102,6 +106,7 @@ xueba/
 
 ```markdown
 When writing a study note, read `references/note-template.md`.
+Before claiming completion, apply `references/quality-gate.md`.
 When resolving Obsidian, prefer `scripts/resolve_obsidian_vault.py`; if unavailable, read `references/obsidian-workflow.md`.
 When the source requires login, read `references/authenticated-sources.md`.
 When auditing a vault, read `references/upgrade-mode.md`.
@@ -258,6 +263,40 @@ AI/eval
 - 分类不确定时使用 `88-学习/待分类/`。
 
 ## 7. 单文件模板优化
+
+v1.2 已把单文件模板固定为五段结构，并在 `references/note-template.md` 中补强：
+
+- `全景` 必须说明这门知识解决什么问题。
+- `概念` 必须使用 `C001` 等概念 ID，并说明边界、误区、关系和来源锚点。
+- `练习` 必须包含答案、评分标准或预期输出。
+- `来源` 必须包含 AI 读取区和用户可见质量检查。
+
+## 8. 质量门禁
+
+v1.2 新增 `references/quality-gate.md`，门禁覆盖：
+
+- Universal Gate：模式选择、来源访问、确定性标签和临时路径。
+- Study Note Gate：frontmatter、五段结构、概念 ID、练习答案、AI 读取区。
+- Obsidian Save Gate：真实 vault、`88-学习/`、非 `obsidian://`、非 `/tmp`。
+- Upgrade Mode Gate：范围、模式、评分和不污染旧笔记。
+- Learning Expert Gate：身份、能力预检、六模块、交付契约和单专家边界。
+- Agent Design Gate：Skill、Expert Mode、Agent Object、Runtime Agent、Multi-Agent Team 边界。
+- Local Eval Gate：`python3 scripts/run_evals.py`。
+
+## 9. v1.2 发布判断
+
+当前 v1.2 的定义是“学习专家稳定版”：
+
+```text
+专家人格固化
+-> 能力模块化
+-> 五段式交付标准
+-> 独立质量门禁
+-> 本地确定性 eval
+-> Skill/Agent 边界清晰
+```
+
+它仍不是 v2.0 runtime agent。v2.0 需要独立长期记忆、任务队列、调度器、权限系统、观测、部署和生命周期管理。
 
 保持 5 个主目录：
 

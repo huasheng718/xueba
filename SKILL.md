@@ -1,15 +1,17 @@
 ---
 name: xueba
-description: Use when the user wants to study, digest, restructure, or save learning material into Obsidian TAG-flow Markdown; create human-learnable and AI-readable notes, concept maps, Feynman questions, exercises, or review plans; audit or upgrade an existing Obsidian vault; learn from authenticated Feishu/Notion/Yuque/DingTalk/private docs; generate a learning expert prompt or xueba expert mode; or clarify/agentize xueba as a skill, expert mode, agent object, or runtime agent. Trigger on 学霸, Obsidian, TAG流, 双链, 概念关系, AI读取区, 费曼, 复习计划, 知识库体检/升级, 学习专家, 专家提示词, 技能还是智能体, Xueba Agent, 智能体化学霸.
+description: Use when the user wants to study, digest, restructure, or save learning material into Obsidian TAG-flow Markdown; create human-learnable and AI-readable notes, concept maps, Feynman questions, exercises, or review plans; audit or upgrade an existing Obsidian vault; learn from authenticated Feishu/Notion/Yuque/DingTalk/private docs; generate a learning expert prompt, learning expert operating system, or xueba expert mode; or clarify/agentize xueba as a skill, expert mode, agent object, or runtime agent. Trigger on 学霸, Obsidian, TAG流, 双链, 概念关系, AI读取区, 费曼, 复习计划, 知识库体检/升级, 学习专家, 专家提示词, 技能还是智能体, Xueba Agent, 智能体化学霸.
 ---
 
 # 学霸
+
+Current target version: xueba v1.2, the stable Learning Expert Mode. This is a Codex Skill plus a productized learning expert protocol, not an independent runtime agent.
 
 Use this skill in four modes:
 
 1. Study Mode: turn dense or fragmented learning material into one coherent Obsidian study note by default, with optional asset-package expansion only when requested.
 2. Upgrade Mode: inspect an existing Obsidian vault or selected notes and identify knowledge that can be improved, merged, split, linked, retagged, verified, or turned into learning assets.
-3. Learning Expert Mode: generate, refine, or explain xueba as a productized learning expert with role anchoring, capability precheck, workflow, delivery contract, and quality gate.
+3. Learning Expert Mode: generate, refine, or explain xueba as a productized learning expert operating system with role anchoring, stable personality, capability modules, workflow, delivery contract, and quality gate.
 4. Agent Design Mode: explain or design xueba as an agent object, including the boundary between skill, expert mode, and independent runtime agent.
 
 The goal is not to summarize a source. The goal is to create and maintain notes that support understanding, retrieval, review, transfer, and long-term knowledge growth. The first learning output should usually be one complete Markdown note that explains the topic end to end in the style of a "systematic topic note"; many files are useful only after the user wants long-term decomposition.
@@ -277,7 +279,7 @@ Adapt the plan if the user has an exam date, project deadline, or weekly cadence
 
 ### 7. Run Quality Gate
 
-In default one-file mode, include the quality checklist from `references/note-template.md` under `## 5. 来源`. In asset-package mode, create `qa.md` with the same checks adapted to the generated package.
+In default one-file mode, apply `references/quality-gate.md` and include the quality checklist from `references/note-template.md` under `## 5. 来源`. In asset-package mode, create `qa.md` with the same checks adapted to the generated package.
 
 If an item cannot pass, explain the gap and how to fix it.
 
@@ -293,7 +295,7 @@ Default to report-only. Do not rewrite existing notes unless the user explicitly
 
 ## Markdown Templates
 
-Default single-file notes use `references/note-template.md`. Upgrade reports use `references/upgrade-mode.md`.
+Default single-file notes use `references/note-template.md` and the completion criteria in `references/quality-gate.md`. Upgrade reports use `references/upgrade-mode.md`.
 
 Learning Expert Mode uses `references/learning-expert.md`, with `references/expert-personality.md` and `references/expert-capabilities.md` loaded when the user asks about expert identity, expert behavior, capability design, or upgrading xueba into an expert.
 

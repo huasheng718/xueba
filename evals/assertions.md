@@ -2,6 +2,8 @@
 
 Use these assertions when reviewing `evals/evals.json` outputs.
 
+These assertions correspond to `references/quality-gate.md`. The Markdown file is the human-readable review guide; `scripts/run_evals.py` implements the deterministic subset.
+
 ## Obsidian Save Assertions
 
 - Final saved note path must be inside a resolved Obsidian vault.

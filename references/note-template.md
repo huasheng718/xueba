@@ -14,6 +14,8 @@ The note should be complete but concise. Keep the main headings fixed and simple
 
 Do not expand these into many top-level sections. Put detail inside the existing sections.
 
+Before final handoff, apply `references/quality-gate.md`. The checklist in this template is the user-visible part of that gate.
+
 ## Template
 
 ````markdown
@@ -50,6 +52,7 @@ depth: "[beginner/intermediate/advanced]"
 ### 核心判断
 
 - 系统本质：
+- 这门知识解决什么问题：
 - 最重要的边界：
 - 最容易误解的点：
 
@@ -78,6 +81,7 @@ depth: "[beginner/intermediate/advanced]"
 - 每个核心概念至少说明“它是什么 / 它不是什么”。
 - 易混概念必须给出区别或反例。
 - 关系字段要说明方向，不只罗列名称。
+- 当概念来自推论而不是原文，来源锚点写明“推论原因”。
 
 ## 3. 正文
 
@@ -196,9 +200,11 @@ qa_pairs:
 
 #### 学习效果
 - [ ] 主目录保持简洁：全景、概念、正文、练习、来源
+- [ ] 全景说明这门知识解决什么问题
 - [ ] 全景包含学习目标、前置知识和知识地图
 - [ ] 正文覆盖 Why / What / How / Limits / Evidence
 - [ ] 练习题包含答案或评分标准
 - [ ] 复习节奏有间隔和具体任务
 - [ ] AI 读取区包含概念 ID、关键词、关系和问答对
+- [ ] 保存结果位于真实 Obsidian vault 的 `88-学习/`
 ```
