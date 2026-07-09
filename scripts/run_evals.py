@@ -13,6 +13,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -20,6 +21,10 @@ from typing import Any
 REQUIRED_FILES = [
     "SKILL.md",
     "README.md",
+    "VERSION",
+    "CHANGELOG.md",
+    "docs/runtime-operations.md",
+    "docs/release-v2.0.md",
     "references/note-template.md",
     "references/tag-taxonomy.md",
     "references/obsidian-workflow.md",
@@ -55,6 +60,7 @@ REQUIRED_MAIN_HEADINGS = [
 REQUIRED_FRONTMATTER_KEYS = ["title", "tags", "source", "created"]
 REQUIRED_TAG_PREFIXES = ["status/", "type/", "domain/", "source/", "access/", "confidence/"]
 REQUIRED_AI_YAML_KEYS = ["summary:", "concepts:", "relations:", "keywords:", "qa_pairs:"]
+CURRENT_VERSION = "2.0.0"
 
 
 def read_text(path: Path) -> str:
@@ -149,6 +155,42 @@ def validate_quality_gate(root: Path, results: list[dict[str, Any]]) -> None:
     template = read_text(root / "references/note-template.md")
     for phrase in ["references/quality-gate.md", "这门知识解决什么问题", "保存结果位于真实 Obsidian vault 的 `88-学习/`"]:
         add_result(results, f"note template includes {phrase}", phrase in template)
+
+
+def validate_release_docs(root: Path, results: list[dict[str, Any]]) -> None:
+    version = read_text(root / "VERSION").strip()
+    add_result(results, "VERSION is 2.0.0", version == CURRENT_VERSION, version)
+
+    changelog = read_text(root / "CHANGELOG.md")
+    for phrase in [
+        "## 2.0.0",
+        "Local Runtime Harness",
+        "Agent Object Layer",
+        "scripts/xueba_runtime.py",
+        "not a deployed autonomous agent",
+    ]:
+        add_result(results, f"CHANGELOG includes {phrase}", phrase in changelog)
+
+    runtime_ops = read_text(root / "docs/runtime-operations.md")
+    for phrase in [
+        "Runtime Boundary",
+        "Initialize",
+        "Create a task",
+        "Complete a task",
+        "Build memory index",
+        "Do not claim autonomous execution",
+    ]:
+        add_result(results, f"runtime operations includes {phrase}", phrase in runtime_ops)
+
+    release = read_text(root / "docs/release-v2.0.md")
+    for phrase in [
+        "xueba v2.0",
+        "Release Boundary",
+        "Verification Commands",
+        "241 passed, 0 failed",
+        "Known Non-Goals",
+    ]:
+        add_result(results, f"release doc includes {phrase}", phrase in release)
 
 
 def validate_agent_runtime_refs(root: Path, results: list[dict[str, Any]]) -> None:
@@ -408,10 +450,50 @@ def summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def write_report(report: dict[str, Any], report_dir: Path, root: Path, note: str | None) -> None:
+    report_dir.mkdir(parents=True, exist_ok=True)
+    generated_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    payload = {
+        "generated_at": generated_at,
+        "root": str(root),
+        "note": note,
+        **report,
+    }
+    (report_dir / "summary.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    failed = [item for item in report["results"] if not item["passed"]]
+    lines = [
+        "# Xueba Eval Report",
+        "",
+        f"- Generated at: `{generated_at}`",
+        f"- Root: `{root}`",
+        f"- Status: `{'PASS' if report['ok'] else 'FAIL'}`",
+        f"- Passed: `{report['passed']}`",
+        f"- Failed: `{report['failed']}`",
+    ]
+    if note:
+        lines.append(f"- Note: `{note}`")
+    lines.extend(["", "## Failed Checks"])
+    if failed:
+        for item in failed:
+            evidence = f" Evidence: {item.get('evidence', '')}" if item.get("evidence") else ""
+            lines.append(f"- {item['name']}.{evidence}")
+    else:
+        lines.append("- None.")
+
+    lines.extend(["", "## Check Inventory"])
+    for item in report["results"]:
+        marker = "PASS" if item["passed"] else "FAIL"
+        evidence = f" - {item.get('evidence', '')}" if item.get("evidence") else ""
+        lines.append(f"- `{marker}` {item['name']}{evidence}")
+    (report_dir / "summary.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run deterministic xueba skill checks.")
     parser.add_argument("--root", default=None, help="Skill root. Defaults to the parent of this script directory.")
     parser.add_argument("--note", default=None, help="Optional generated Markdown note to validate.")
+    parser.add_argument("--report-dir", default=None, help="Optional directory for summary.json and summary.md reports.")
     parser.add_argument("--json", action="store_true", help="Print full JSON result.")
     args = parser.parse_args()
 
@@ -421,6 +503,7 @@ def main() -> int:
     try:
         validate_required_files(root, results)
         validate_skill_metadata(root, results)
+        validate_release_docs(root, results)
         validate_learning_expert_refs(root, results)
         validate_quality_gate(root, results)
         validate_agent_runtime_refs(root, results)
@@ -433,6 +516,8 @@ def main() -> int:
         add_result(results, "runner completed without parser errors", False, str(exc))
 
     report = summarize(results)
+    if args.report_dir:
+        write_report(report, Path(args.report_dir).expanduser().resolve(), root, args.note)
     if args.json:
         print(json.dumps(report, ensure_ascii=False, indent=2))
     else:

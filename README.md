@@ -179,6 +179,7 @@ python3 scripts/install_obsidian.py --json
 python3 scripts/classify_learning_path.py --title "Agent Skills 开放技能标准与工程实践" --domain-tag domain/ai/skills
 python3 scripts/write_obsidian_note.py --vault "/path/to/vault" --relative-dir "88-学习/AI/skills" --filename "Agent Skills：开放技能标准与工程实践.md" --content-file note.md
 python3 scripts/run_evals.py
+python3 scripts/run_evals.py --report-dir .xueba-eval-report
 python3 scripts/run_evals.py --note "/path/to/generated-note.md"
 python3 scripts/xueba_runtime.py init --runtime .xueba-runtime
 python3 scripts/xueba_runtime.py create --runtime .xueba-runtime --type study_note --title "Agent memory" --source-kind web_url --source-value https://example.com/agent-memory
@@ -189,7 +190,7 @@ python3 scripts/xueba_runtime.py list --runtime .xueba-runtime
 - `install_obsidian.py`：未检测到 Obsidian 且获得批准后，从 `obsidianmd/obsidian-releases` 获取最新安装包并安装。
 - `classify_learning_path.py`：输出 `88-学习/[大学科]/[章节]/` 这类简洁相对目录和安全文件名。
 - `write_obsidian_note.py`：校验目标 vault、确保路径在 `88-学习/` 下、创建目录、防止默认覆盖同名笔记。
-- `run_evals.py`：本地静态检查技能结构、专家引用、质量门禁、eval expectations、20 条触发边界，并可检查生成的单文件笔记。
+- `run_evals.py`：本地静态检查技能结构、专家引用、质量门禁、eval expectations、20 条触发边界，并可检查生成的单文件笔记或输出发布报告。
 - `xueba_runtime.py`：本地 deterministic runtime harness，管理任务队列、状态迁移、事件日志和 memory-index 脚手架。
 
 ## 测试提示

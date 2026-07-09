@@ -31,6 +31,9 @@
 - 已新增 v1.3 Agent 对象层协议 `references/agent-object.md`。
 - 已新增 v2.0 runtime harness 协议 `references/runtime-agent.md`。
 - 已新增本地 runtime harness 脚本 `scripts/xueba_runtime.py`。
+- 已新增 v2.0 发布文档 `docs/release-v2.0.md`。
+- 已新增 runtime 操作手册 `docs/runtime-operations.md`。
+- 已新增版本文件 `VERSION` 与 `CHANGELOG.md`。
 - 已新增本地确定性评测脚本 `scripts/run_evals.py`。
 - 已新增兼容评测入口 `evals/cases.json`。
 - 触发边界已扩展到 20 条真实场景：10 条应触发、10 条不应触发。
@@ -39,7 +42,7 @@
 
 - `SKILL.md` 仍偏长，部分规则可拆到 `references/`。
 - Obsidian 检测、vault 解析、分类、写入已有可复用脚本，后续应继续用真实样例验证跨机器表现。
-- eval 已覆盖核心场景，并有本地静态检查脚本；后续还需要接入模型输出对比和人工评审 viewer。
+- eval 已覆盖核心场景，并有本地静态检查脚本和报告落盘能力；后续还需要接入模型输出对比和人工评审 viewer。
 - trigger eval 已建立，但还需要周期性运行并根据误触发/漏触发继续优化 description。
 - 临时文件策略不够明确，容易把 `/private/tmp` 中间产物暴露给用户。
 - 对多客户端兼容性缺少明确边界，例如 Codex、OpenCode、Claude Code 的技能扫描路径差异。
@@ -419,6 +422,8 @@ v2.0 仍不是已部署 autonomous daemon。真正长期运行还需要调度器
 - [x] 新增 `evals/assertions.md`。
 - [x] 新增 Learning Expert Mode eval。
 - [x] 新增 Agent Design Mode eval。
+- [x] 新增 Runtime Harness Mode eval。
+- [x] 新增 `run_evals.py --report-dir` 发布报告。
 - [ ] 对至少 8 个核心场景跑一次人工评估。
 
 验收：
@@ -470,4 +475,4 @@ v2.0 仍不是已部署 autonomous daemon。真正长期运行还需要调度器
 1. 对至少 8 个核心场景跑一次人工评估。
 2. 根据评估结果优化 `description` 和误触发/漏触发边界。
 3. 把常见失败案例沉淀进 references。
-4. 发布一个稳定版本 tag。
+4. 基于 v2.0 发布文档创建并推送稳定版本 tag。

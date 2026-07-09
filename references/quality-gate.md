@@ -85,17 +85,18 @@ An Agent Design Mode output passes only when it distinguishes:
 - Skill
 - Expert Mode
 - Agent Object
+- Local Runtime Harness
 - Runtime Agent
 - Multi-Agent Team
 
-It must state that current xueba is a Codex Skill with Learning Expert Mode, not an independent runtime agent, unless a verified runtime has been built. Runtime-agent proposals must include identity, task schema, memory, tools, permissions, scheduler, evaluation, observability, deployment, and lifecycle.
+It must state that current xueba is a Codex Skill with Learning Expert Mode, Agent Object Layer, and Local Runtime Harness, but not a deployed autonomous runtime agent. Runtime-agent proposals must include identity, task schema, memory, tools, permissions, scheduler, evaluation, observability, deployment, and lifecycle.
 
 ## Local Eval Gate
 
 Before release, run:
 
 ```bash
-python3 scripts/run_evals.py
+python3 scripts/run_evals.py --report-dir .xueba-eval-report
 ```
 
 For a generated note, also run:
