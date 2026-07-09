@@ -37,6 +37,16 @@ The user's preferred knowledge style is TAG flow: light folders, strong tags, st
 - Saving to Obsidian means writing into the user's actual Obsidian vault, not merely the current Codex workspace. Resolve the live vault before saving.
 - Do not hard-code machine-specific vault paths or Obsidian deep links in this skill. Treat Obsidian as local software plus a set of vault directories that must be discovered or provided at runtime.
 
+## Safety Checkpoints
+
+Stop and get explicit user or host approval before any action that changes the user's environment, existing vault, or task state beyond creating a new learning note.
+
+- 🔴 CHECKPOINT / STOP 🛑: Before installing Obsidian or changing host applications, show the official source, dry-run result when available, and the exact command to run.
+- 🔴 CHECKPOINT / STOP 🛑: Before rewriting, moving, splitting, merging, or retagging existing vault notes, present a report and wait for explicit permission to apply edits.
+- 🔴 CHECKPOINT / STOP 🛑: Before creating a multi-file asset package, confirm that the user wants files beyond the default single system note.
+- 🔴 CHECKPOINT / STOP 🛑: Before using an authenticated browser/session path, state what visible content will be read and confirm that no passwords, cookies, tokens, headers, or session storage will be requested or extracted.
+- 🔴 CHECKPOINT / STOP 🛑: Before claiming runtime autonomy, verify that a scheduler, model executor, permission service, observability, deployment, and lifecycle manager actually exist. If not, describe only the local deterministic runtime harness.
+
 ## Supported Inputs
 
 Accept these source types:
@@ -60,6 +70,22 @@ If the source cannot be parsed, return a structured failure with:
 ```
 
 Do not fabricate content to cover missing source text.
+
+## Anti-Patterns And Blacklist
+
+Do not perform these actions. If a user request seems to require one of them, stop, explain the boundary, and offer the safe alternative.
+
+| Anti-pattern | Why it is unsafe or low quality | Safe alternative |
+|---|---|---|
+| Summarize a login page as if it were the source | It fabricates learning content and hides access failure | Use the Authenticated Source Workflow or return the structured failure block |
+| Ask for passwords, 2FA codes, cookies, bearer tokens, authorization headers, or session storage | It bypasses normal access boundaries and exposes secrets | Use public access, official export/API/connector, already-open visible browser content, or user-pasted/exported text |
+| Save final notes to the current workspace, generated-output, `/tmp`, `/private/tmp`, or an `obsidian://` link | It falsely reports Obsidian persistence | Resolve the real vault and write under `88-学习/` |
+| Hard-code a machine-specific vault path or personal taxonomy | It breaks portability and may write to the wrong place | Resolve the vault at runtime and classify under `88-学习/[大学科]/[章节]/` |
+| Default to many files, MOCs, concept cards, question files, and exercise files | It increases note volume without guaranteeing learning | Produce one coherent system note unless the user explicitly asks for an asset package |
+| Create double links for ordinary keywords | It pollutes the graph and weakens retrieval | Link only durable reusable concepts, models, methods, people, technologies, or questions |
+| Rewrite existing vault notes during an audit by default | It can destroy user organization before review | Report first; edit only after explicit approval |
+| Claim the local runtime harness is an autonomous deployed agent | It overstates capability | State that it records tasks, state transitions, events, and memory-index scaffolds, but does not call an LLM or run in the background |
+| Generate exercises without answers, scoring criteria, or expected outputs | The learner cannot self-check | Provide reference answers, rubrics, or expected deliverables for every exercise |
 
 ## Authenticated Source Workflow
 

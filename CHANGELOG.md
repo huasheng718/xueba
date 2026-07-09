@@ -10,6 +10,8 @@ This release promotes xueba to the local runtime harness line:
 - Adds the v2.0 Local Runtime Harness boundary in `references/runtime-agent.md`.
 - Adds `scripts/xueba_runtime.py` for deterministic local task records, status transitions, event logs, and memory-index scaffolds.
 - Extends `scripts/run_evals.py` with runtime smoke checks and report output.
+- Adds `scripts/prepare_model_eval_workspace.py` and `docs/model-eval-workflow.md` for real model-output review setup.
+- Adds SKILL-level safety checkpoints and anti-pattern boundaries for vault edits, authenticated sources, Obsidian persistence, and runtime autonomy claims.
 - Expands eval coverage to 13 output cases and 22 trigger-boundary prompts.
 - Documents that xueba is not a deployed autonomous agent, daemon, cloud service, scheduler, model executor, or independent permission service.
 

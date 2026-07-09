@@ -106,7 +106,7 @@ python3 scripts/run_evals.py --report-dir .xueba-eval-report
 Expected stable release result:
 
 ```text
-PASS: 241 passed, 0 failed
+PASS: 258 passed, 0 failed
 ```
 
 The report directory contains:

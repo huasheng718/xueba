@@ -33,7 +33,9 @@
 - 已新增本地 runtime harness 脚本 `scripts/xueba_runtime.py`。
 - 已新增 v2.0 发布文档 `docs/release-v2.0.md`。
 - 已新增 runtime 操作手册 `docs/runtime-operations.md`。
+- 已新增模型输出评估流程 `docs/model-eval-workflow.md`。
 - 已新增版本文件 `VERSION` 与 `CHANGELOG.md`。
+- 已新增 `scripts/prepare_model_eval_workspace.py`，用于生成 skill-creator 兼容的模型评估工作区。
 - 已新增本地确定性评测脚本 `scripts/run_evals.py`。
 - 已新增兼容评测入口 `evals/cases.json`。
 - 触发边界已扩展到 20 条真实场景：10 条应触发、10 条不应触发。
@@ -424,6 +426,7 @@ v2.0 仍不是已部署 autonomous daemon。真正长期运行还需要调度器
 - [x] 新增 Agent Design Mode eval。
 - [x] 新增 Runtime Harness Mode eval。
 - [x] 新增 `run_evals.py --report-dir` 发布报告。
+- [x] 新增模型输出评估工作区生成器。
 - [ ] 对至少 8 个核心场景跑一次人工评估。
 
 验收：

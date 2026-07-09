@@ -20,6 +20,9 @@ xueba v2.0 is not a deployed autonomous agent. It has no always-on daemon, auton
 - Added `references/runtime-agent.md`.
 - Added `scripts/xueba_runtime.py`.
 - Added `docs/runtime-operations.md`.
+- Added `docs/model-eval-workflow.md`.
+- Added `scripts/prepare_model_eval_workspace.py`.
+- Added SKILL-level safety checkpoints and anti-pattern boundaries.
 - Expanded `scripts/run_evals.py` to validate release docs and write eval reports.
 - Expanded eval coverage to include Agent Object Layer and Runtime Harness Mode.
 
@@ -29,6 +32,7 @@ Run from the skill root:
 
 ```bash
 python3 scripts/run_evals.py --report-dir .xueba-eval-report
+python3 scripts/prepare_model_eval_workspace.py --workspace ../xueba-workspace
 python3 -m py_compile scripts/*.py
 python3 - <<'PY'
 import json
@@ -43,7 +47,7 @@ git diff --check
 Expected deterministic eval result:
 
 ```text
-PASS: 241 passed, 0 failed
+PASS: 258 passed, 0 failed
 ```
 
 ## Runtime Smoke Coverage
@@ -74,6 +78,8 @@ PASS: 241 passed, 0 failed
 - [x] Runtime references exist.
 - [x] Runtime script exists.
 - [x] Release docs exist.
+- [x] Model-output eval workspace generator exists.
+- [x] Safety checkpoints and anti-pattern boundaries are checked.
 - [x] Deterministic eval passes.
 - [x] Installed local skill can be synced and checked with the same eval runner.
 - [ ] Model-output comparison and human review viewer should be run before calling a future release behaviorally stable.

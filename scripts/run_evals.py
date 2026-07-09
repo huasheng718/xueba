@@ -25,6 +25,7 @@ REQUIRED_FILES = [
     "CHANGELOG.md",
     "docs/runtime-operations.md",
     "docs/release-v2.0.md",
+    "docs/model-eval-workflow.md",
     "references/note-template.md",
     "references/tag-taxonomy.md",
     "references/obsidian-workflow.md",
@@ -42,6 +43,7 @@ REQUIRED_FILES = [
     "scripts/classify_learning_path.py",
     "scripts/write_obsidian_note.py",
     "scripts/xueba_runtime.py",
+    "scripts/prepare_model_eval_workspace.py",
     "scripts/run_evals.py",
     "evals/cases.json",
     "evals/evals.json",
@@ -108,6 +110,11 @@ def validate_skill_metadata(root: Path, results: list[dict[str, Any]]) -> None:
         "references/runtime-agent.md",
         "scripts/xueba_runtime.py",
         "local deterministic runtime harness",
+        "Safety Checkpoints",
+        "CHECKPOINT",
+        "Anti-Patterns And Blacklist",
+        "Do not perform these actions",
+        "Claim the local runtime harness is an autonomous deployed agent",
     ]:
         add_result(results, f"SKILL.md references {phrase}", phrase in text)
 
@@ -182,15 +189,35 @@ def validate_release_docs(root: Path, results: list[dict[str, Any]]) -> None:
     ]:
         add_result(results, f"runtime operations includes {phrase}", phrase in runtime_ops)
 
+    model_eval = read_text(root / "docs/model-eval-workflow.md")
+    for phrase in [
+        "Boundary",
+        "Prepare workspace",
+        "Grade outputs",
+        "Generate benchmark and viewer",
+        "Release rule",
+    ]:
+        add_result(results, f"model eval workflow includes {phrase}", phrase in model_eval)
+
     release = read_text(root / "docs/release-v2.0.md")
     for phrase in [
         "xueba v2.0",
         "Release Boundary",
         "Verification Commands",
-        "241 passed, 0 failed",
+        "258 passed, 0 failed",
         "Known Non-Goals",
     ]:
         add_result(results, f"release doc includes {phrase}", phrase in release)
+
+    model_eval_script = read_text(root / "scripts/prepare_model_eval_workspace.py")
+    for phrase in [
+        "DEFAULT_EVAL_IDS",
+        "build_run_prompt",
+        "grading.template.json",
+        "run_with_codex.sh",
+        "generate_viewer.sh",
+    ]:
+        add_result(results, f"model eval script includes {phrase}", phrase in model_eval_script)
 
 
 def validate_agent_runtime_refs(root: Path, results: list[dict[str, Any]]) -> None:
